@@ -1,3 +1,5 @@
-caffeine
+ttf-firacode-nerd
+gnome-tweaks
+ulauncher
+wmctrl
 gnome-shell-extension-dash-to-dock
-gnome-shell-extension-top-bar-organizer
