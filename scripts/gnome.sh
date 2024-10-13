@@ -12,10 +12,13 @@ gsettings set org.gnome.desktop.interface enable-hot-corners false
 # Configure workspaces.
 gsettings set org.gnome.mutter dynamic-workspaces false
 gsettings set org.gnome.desktop.wm.preferences num-workspaces 10
-for i in {1..9} 10; do
-    gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-$i "['<Alt>$i']"
-    gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-$i "['<Alt><Shift>$i']"
-done
+
+# Configure keybindings.
+# ? Export commands:
+# ? dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > keybindings/custom.conf
+# ? dconf dump /org/gnome/desktop/wm/keybindings/ > keybindings/window_manager.conf
+cat keybindings/custom.conf | dconf load /org/gnome/settings-daemon/plugins/media-keys/
+cat keybindings/windows_manager.conf | dconf load /org/gnome/desktop/wm/keybindings/
 
 # Remove not needed GNOME packages.
 declare -a packages=(
