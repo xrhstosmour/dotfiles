@@ -11,3 +11,6 @@ sh scripts/extensions.sh
 
 # Configure GNOME.
 sh scripts/gnome.sh
+
+# Configure system.
+sh scripts/system.sh
