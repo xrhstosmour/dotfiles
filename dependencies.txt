@@ -1,4 +1,5 @@
 update-notifier
+wezterm
 pipewire
 networkmanager
 ttf-firacode-nerd
