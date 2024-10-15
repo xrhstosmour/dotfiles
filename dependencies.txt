@@ -7,3 +7,4 @@ gnome-tweaks
 ulauncher
 wmctrl
 gnome-shell-extension-dash-to-dock
+gnome-shell-extension-blur-my-shell

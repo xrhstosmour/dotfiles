@@ -2,6 +2,7 @@
 
 # Enable GNOME extensions.
 gnome-extensions enable dash-to-dock@micxgx.gmail.com
+gnome-extensions enable blur-my-shell@aunetx
 
 # Dock configuration.
 gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode 'FIXED'
