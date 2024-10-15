@@ -59,7 +59,8 @@ if [ ! -d ~/Pictures/Wallpapers ]; then
 fi
 cp -R Wallpapers/* ~/Pictures/Wallpapers/
 
-gsettings set org.gnome.desktop.background picture-uri-dark file:///~/Pictures/Wallpapers/cloudy_abstract_island.png
+gsettings set org.gnome.desktop.background picture-uri "file://$HOME/Pictures/Wallpapers/cloudy_abstract_island.png"
+gsettings set org.gnome.desktop.background picture-uri-dark "file://$HOME/Pictures/Wallpapers/cloudy_abstract_island.png"
 
 # Configure keyboard layout.
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
