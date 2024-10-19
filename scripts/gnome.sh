@@ -16,6 +16,9 @@ gsettings set org.gnome.desktop.wm.preferences num-workspaces 10
 # Configure Font.
 gsettings set org.gnome.desktop.interface font-name 'Fira Code Nerd 12'
 
+# Configure Icons.
+gsettings set org.gnome.desktop.interface icon-theme 'MoreWaita'
+
 # Configure keybindings.
 # ? Export commands:
 # ? dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > keybindings/custom.conf
