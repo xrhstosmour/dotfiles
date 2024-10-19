@@ -13,6 +13,9 @@ gsettings set org.gnome.desktop.interface enable-hot-corners false
 gsettings set org.gnome.mutter dynamic-workspaces false
 gsettings set org.gnome.desktop.wm.preferences num-workspaces 10
 
+# Configure Font.
+gsettings set org.gnome.desktop.interface font-name 'Fira Code Nerd 12'
+
 # Configure keybindings.
 # ? Export commands:
 # ? dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > keybindings/custom.conf
