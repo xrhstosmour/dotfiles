@@ -3,6 +3,7 @@ wezterm
 pipewire
 networkmanager
 ttf-firacode-nerd
+morewaita-icon-theme
 gnome-tweaks
 ulauncher
 wmctrl
