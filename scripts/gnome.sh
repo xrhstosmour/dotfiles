@@ -3,6 +3,12 @@
 # Disable the GNOME sleep when in AC mode.
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
+# Configure clock.
+gsettings set org.gnome.desktop.interface clock-format '24h'
+gsettings set org.gnome.desktop.interface clock-show-date false
+gsettings set org.gnome.desktop.interface clock-show-seconds false
+gsettings set org.gnome.desktop.interface clock-show-weekday false
+
 # Set minimize, maximize, and close buttons to the right.
 gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
 
