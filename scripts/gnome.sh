@@ -35,6 +35,7 @@ cat keybindings/windows_manager.conf | dconf load /org/gnome/desktop/wm/keybindi
 # Remove not needed GNOME packages.
 declare -a packages=(
     epiphany
+    vim
     gnome-software
     gnome-contacts
     gnome-backgrounds
@@ -52,7 +53,7 @@ declare -a packages=(
     gnome-screenshot
     gnome-system-monitor
     gnome-text-editor
-    gnome-terminal
+    gnome-console
     gnome-help
     gnome-document-scanner
     gnome-image-viewer
