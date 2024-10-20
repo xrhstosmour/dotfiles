@@ -1,0 +1,7 @@
+update-notifier
+pipewire
+networkmanager
+ttf-firacode-nerd
+morewaita-icon-theme
+wmctrl
+fuse
