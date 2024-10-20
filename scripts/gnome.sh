@@ -76,3 +76,18 @@ gsettings set org.gnome.desktop.background picture-uri-dark "file://$HOME/Pictur
 
 # Configure keyboard layout.
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
+
+# Configure favorite applications.
+gsettings set org.gnome.shell favorite-apps "[]"
+gsettings set org.gnome.shell favorite-apps "[
+    'google-chrome.desktop',
+    'cromite.desktop',
+    'org.wezfurlong.wezterm.desktop',
+    'code.desktop',
+    'signal-desktop.desktop',
+    'com.viber.Viber.desktop',
+    'org.mozilla.Thunderbird.desktop',
+    'spotify.desktop',
+    'io.missioncenter.MissionCenter.desktop',
+    'org.gnome.Settings.desktop'
+]"
