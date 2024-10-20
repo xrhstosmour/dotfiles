@@ -4,10 +4,7 @@
 cp -R .config/* ~/.config/
 
 # Install the needed dependencies.
-paru -S --noconfirm --needed - < dependencies.txt
-
-# Enable and configure GNOME extensions.
-sh scripts/extensions.sh
+paru -S --noconfirm --needed - < packages/dependencies.txt
 
 # Configure GNOME.
 sh scripts/gnome.sh

@@ -94,3 +94,6 @@ gsettings set org.gnome.shell favorite-apps "[
 
 # Configure startup applications.
 sh scripts/gnome/startup.sh
+
+# Configure GNOME extensions.
+sh scripts/gnome/extensions.sh
