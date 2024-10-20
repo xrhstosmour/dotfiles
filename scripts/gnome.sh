@@ -91,3 +91,6 @@ gsettings set org.gnome.shell favorite-apps "[
     'io.missioncenter.MissionCenter.desktop',
     'org.gnome.Settings.desktop'
 ]"
+
+# Configure startup applications.
+sh scripts/gnome/startup.sh
