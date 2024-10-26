@@ -3,6 +3,12 @@
 # Disable the GNOME sleep when in AC mode.
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
+# Configure clock.
+gsettings set org.gnome.desktop.interface clock-format '24h'
+gsettings set org.gnome.desktop.interface clock-show-date false
+gsettings set org.gnome.desktop.interface clock-show-seconds false
+gsettings set org.gnome.desktop.interface clock-show-weekday false
+
 # Set minimize, maximize, and close buttons to the right.
 gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,maximize,close'
 
@@ -12,6 +18,12 @@ gsettings set org.gnome.desktop.interface enable-hot-corners false
 # Configure workspaces.
 gsettings set org.gnome.mutter dynamic-workspaces false
 gsettings set org.gnome.desktop.wm.preferences num-workspaces 10
+
+# Configure Font.
+gsettings set org.gnome.desktop.interface font-name 'Fira Code Nerd 12'
+
+# Configure Icons.
+gsettings set org.gnome.desktop.interface icon-theme 'MoreWaita'
 
 # Configure keybindings.
 # ? Export commands:
@@ -23,6 +35,7 @@ cat keybindings/windows_manager.conf | dconf load /org/gnome/desktop/wm/keybindi
 # Remove not needed GNOME packages.
 declare -a packages=(
     epiphany
+    vim
     gnome-software
     gnome-contacts
     gnome-backgrounds
@@ -40,7 +53,7 @@ declare -a packages=(
     gnome-screenshot
     gnome-system-monitor
     gnome-text-editor
-    gnome-terminal
+    gnome-console
     gnome-help
     gnome-document-scanner
     gnome-image-viewer
@@ -64,3 +77,24 @@ gsettings set org.gnome.desktop.background picture-uri-dark "file://$HOME/Pictur
 
 # Configure keyboard layout.
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
+
+# Configure favorite applications.
+gsettings set org.gnome.shell favorite-apps "[]"
+gsettings set org.gnome.shell favorite-apps "[
+    'google-chrome.desktop',
+    'cromite.desktop',
+    'org.wezfurlong.wezterm.desktop',
+    'code.desktop',
+    'signal-desktop.desktop',
+    'com.viber.Viber.desktop',
+    'org.mozilla.Thunderbird.desktop',
+    'spotify.desktop',
+    'io.missioncenter.MissionCenter.desktop',
+    'org.gnome.Settings.desktop'
+]"
+
+# Configure startup applications.
+sh scripts/gnome/startup.sh
+
+# Configure GNOME extensions.
+sh scripts/gnome/extensions.sh
