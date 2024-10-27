@@ -5,3 +5,5 @@ ttf-firacode-nerd
 morewaita-icon-theme
 wmctrl
 fuse
+qogir-gtk-theme
+orchis-theme
