@@ -8,6 +8,3 @@ paru -S --noconfirm --needed - < packages/dependencies.txt
 
 # Configure GNOME.
 sh scripts/gnome.sh
-
-# Configure system.
-sh scripts/system.sh
