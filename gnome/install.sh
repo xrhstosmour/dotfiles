@@ -27,10 +27,10 @@ gsettings set org.gnome.desktop.interface icon-theme 'MoreWaita'
 
 # Configure keybindings.
 # ? Export commands:
-# ? dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > keybindings/custom.conf
-# ? dconf dump /org/gnome/desktop/wm/keybindings/ > keybindings/window_manager.conf
-cat keybindings/custom.conf | dconf load /org/gnome/settings-daemon/plugins/media-keys/
-cat keybindings/windows_manager.conf | dconf load /org/gnome/desktop/wm/keybindings/
+# ? dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > gnome/keybindings/custom.conf
+# ? dconf dump /org/gnome/desktop/wm/keybindings/ > gnome/keybindings/window_manager.conf
+cat gnome/keybindings/custom.conf | dconf load /org/gnome/settings-daemon/plugins/media-keys/
+cat gnome/keybindings/windows_manager.conf | dconf load /org/gnome/desktop/wm/keybindings/
 
 # Remove not needed GNOME packages.
 declare -a packages=(
@@ -60,9 +60,9 @@ declare -a packages=(
     gnome-font-viewer
 )
 
-for pkg in "${packages[@]}"; do
-    if paru -Qi "$pkg" &> /dev/null; then
-        paru -Rns --noconfirm "$pkg"
+for package in "${packages[@]}"; do
+    if paru -Qi "$package" &> /dev/null; then
+        paru -Rns --noconfirm "$package"
     fi
 done
 
@@ -94,7 +94,7 @@ gsettings set org.gnome.shell favorite-apps "[
 ]"
 
 # Configure startup applications.
-sh scripts/gnome/startup.sh
+sh gnome/scripts/startup.sh
 
 # Configure GNOME extensions.
-sh scripts/gnome/extensions.sh
+sh gnome/scripts/extensions.sh

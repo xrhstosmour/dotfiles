@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install the needed extensions.
-paru -S --noconfirm --needed - < packages/gnome/extensions.txt
+paru -S --noconfirm --needed - < gnome/packages/extensions.txt
 
 # Enable GNOME extensions.
 gnome-extensions enable dash-to-dock@micxgx.gmail.com
