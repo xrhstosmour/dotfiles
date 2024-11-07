@@ -101,3 +101,6 @@ sh gnome/scripts/startup.sh
 
 # Configure GNOME extensions.
 sh gnome/scripts/extensions.sh
+
+# Enable `gdm` service.
+sudo systemctl enable gdm

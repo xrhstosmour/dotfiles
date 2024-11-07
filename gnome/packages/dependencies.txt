@@ -1,2 +1,3 @@
 gnome
+gdm
 gnome-characters
