@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Install the needed GNOME dependencies.
+paru -S --noconfirm --needed - < gnome/packages/dependencies.txt
+
 # Disable the GNOME sleep when in AC mode.
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
