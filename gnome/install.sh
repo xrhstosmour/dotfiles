@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# ? Note: To ensure successful configuration, `GNOME` must first be installed via the `archinstall` script.
-
 # Disable the GNOME sleep when in AC mode.
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
 
