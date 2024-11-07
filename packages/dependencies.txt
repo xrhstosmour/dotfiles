@@ -1,5 +1,8 @@
 update-notifier
 pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
 networkmanager
 ttf-firacode-nerd
 morewaita-icon-theme
