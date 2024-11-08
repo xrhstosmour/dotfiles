@@ -4,7 +4,7 @@ pipewire-alsa
 pipewire-pulse
 pipewire-jack
 networkmanager
-ttf-firacode-nerd
+ttf-fira-code
 morewaita-icon-theme
 wmctrl
 fuse
