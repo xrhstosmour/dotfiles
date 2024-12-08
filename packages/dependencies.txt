@@ -10,3 +10,5 @@ wmctrl
 fuse
 qogir-gtk-theme
 orchis-theme
+dosfstools
+ntfsprogs
