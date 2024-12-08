@@ -21,8 +21,7 @@ appflowy-bin
 google-chrome
 brave-bin
 cromite-bin
-vscodium-bin
-zed
+visual-studio-code-bin
 remmina
 remmina-plugin-teamviewer
 remmina-plugin-anydesk-git
