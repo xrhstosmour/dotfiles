@@ -12,3 +12,4 @@ qogir-gtk-theme
 orchis-theme
 dosfstools
 ntfsprogs
+exfat-utils
