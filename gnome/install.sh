@@ -84,6 +84,9 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 # Configure keyboard layout.
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'gr')]"
 
+# Set up touchpad to enable right-click functionality.
+gsettings set org.gnome.desktop.peripherals.touchpad click-method areas
+
 # Configure favorite applications.
 gsettings set org.gnome.shell favorite-apps "[]"
 gsettings set org.gnome.shell favorite-apps "[
