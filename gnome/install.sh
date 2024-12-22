@@ -92,6 +92,7 @@ gsettings set org.gnome.shell favorite-apps "[]"
 gsettings set org.gnome.shell favorite-apps "[
     'google-chrome.desktop',
     'cromite.desktop',
+    'org.gnome.Nautilus.desktop',
     'org.wezfurlong.wezterm.desktop',
     'code.desktop',
     'signal-desktop.desktop',
