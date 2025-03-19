@@ -36,3 +36,4 @@ veracrypt
 keepassxc
 gufw
 clamtk
+solaar
