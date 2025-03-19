@@ -13,3 +13,5 @@ orchis-theme
 dosfstools
 ntfsprogs
 exfat-utils
+libappindicator-gtk3
+appmenu-gtk-module
