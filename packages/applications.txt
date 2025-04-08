@@ -36,4 +36,5 @@ veracrypt
 keepassxc
 gufw
 clamtk
-solaar
+wimlib
+woeusb
