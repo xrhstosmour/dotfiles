@@ -15,7 +15,7 @@ abbr zzz "sudo systemctl suspend"
 
 # Terminal tools abbreviations.
 abbr cat "bat"
-abbr ls "exa --long --all --icons --color=always --group-directories-first --git"
+abbr ls "eza --long --all --icons --color=always --group-directories-first --git"
 abbr cp "cp_to_xcp"
 abbr t "trash"
 abbr tl "trash list"
