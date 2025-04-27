@@ -49,7 +49,6 @@ function git_fetch_and_rebase
 
     # Determine branch to rebase onto.
     if test -z "$branch_to_rebase_onto"
-
         # Get the default branch.
         set branch_to_rebase_onto (git_get_default_branch)
 
@@ -109,7 +108,6 @@ function git_auto_fix_up
 
     # Loop through the array.
     for line in $commits_list
-
         # Get commit hash and message.
         set commit_hash (echo $line | awk '{print $1}')
         set commit_message (echo $line | cut -d' ' -f3-)
@@ -160,7 +158,6 @@ end
 # Usage:
 #   git_stash_list
 function git_stash_list
-
     # Get the stash list as an array.
     set -l stash_list (git stash list -n 50 --pretty=format:'%h|%s' | string split '\n')
 
@@ -172,7 +169,6 @@ function git_stash_list
 
     # Loop through the array.
     for line in $stash_list
-
         # Extract the stash hash by splitting based on "|".
         set stash_hash (echo "$line" | cut -d'|' -f1 | xargs)
 
@@ -228,7 +224,6 @@ end
 # Usage:
 #   git_log_current_branch
 function git_log_current_branch
-
     # Get the name of the current branch.
     set current_branch (git rev-parse --abbrev-ref HEAD)
 
@@ -249,7 +244,6 @@ function git_log_current_branch
 
     # Loop through the array.
     for line in $log_list
-
         # Extract the commit hash and message.
         set commit_hash (echo "$line" | awk '{print $1}')
         set commit_message (echo "$line" | cut -d' ' -f3-)
