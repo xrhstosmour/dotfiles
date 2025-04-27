@@ -1,10 +1,16 @@
 #!/bin/bash
 
+# Catch exit signal (`CTRL` + `C`) to terminate the whole script.
+trap "exit" INT
+
+# Terminate script on error.
+set -e
+
 # Ensure the autostart directory exists.
 mkdir -p ~/.config/autostart
 
-# Create Ulauncher autostart entry.
-cat <<EOF > ~/.config/autostart/ulauncher.desktop
+# Create `Ulauncher` autostart entry.
+cat <<EOF >~/.config/autostart/ulauncher.desktop
 [Desktop Entry]
 Name=Ulauncher
 Comment=Application launcher for Linux
@@ -18,8 +24,8 @@ Type=Application
 X-GNOME-Autostart-enabled=true
 EOF
 
-# Create Flameshot autostart entry.
-cat <<EOF > ~/.config/autostart/org.flameshot.Flameshot.desktop
+# Create `Flameshot` autostart entry.
+cat <<EOF >~/.config/autostart/org.flameshot.Flameshot.desktop
 [Desktop Entry]
 Name=Flameshot
 GenericName=Screenshot tool
@@ -38,8 +44,8 @@ X-DBUS-ServiceName=org.flameshot.Flameshot
 X-KDE-DBUS-Restricted-Interfaces=org.kde.kwin.Screenshot,org.kde.KWin.ScreenShot2
 EOF
 
-# Create Filen autostart entry.
-cat <<EOF > ~/.config/autostart/filen-desktop.desktop
+# Create `Filen` autostart entry.
+cat <<EOF >~/.config/autostart/filen-desktop.desktop
 [Desktop Entry]
 Name=Filen
 Exec=/usr/bin/filen-desktop %F
