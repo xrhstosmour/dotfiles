@@ -10,13 +10,13 @@ function process_group
 
     for file in $files
         # Get file size.
-        set size (stat -c %s $file 2>/dev/null ^/dev/null; or stat -f %z $file 2>/dev/null ^/dev/null)
+        set size (stat -c %s $file 2>/dev/null; or stat -f %z $file 2>/dev/null)
         if test -z "$size"
             continue
         end
 
         # Get last modification time.
-        set mod (stat -c %Y $file 2>/dev/null ^/dev/null; or stat -f %m $file 2>/dev/null ^/dev/null)
+        set mod (stat -c %Y $file 2>/dev/null; or stat -f %m $file 2>/dev/null)
 
         # Get file extension (lowercased).
         set ext (string lower (string split -r '.' $file)[-1])
@@ -89,13 +89,13 @@ function process_group
     end
 end
 
-# Function to keep the best file per `fdupes` group.
+# Function to keep the best file per `Fdupes` group.
 # Usage:
 #   keep_best_file
 function keep_best_file
     set group
 
-    # Read and group fdupes output.
+    # Read and group `Fdupes` output.
     fdupes -r . | while read -l line
         if test -z "$line"
             if test (count $group) -gt 0
