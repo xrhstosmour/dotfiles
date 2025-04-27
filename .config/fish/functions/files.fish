@@ -89,13 +89,13 @@ function process_group
     end
 end
 
-# Function to keep the best file per `fdupes` group.
+# Function to keep the best file per `Fdupes` group.
 # Usage:
 #   keep_best_file
 function keep_best_file
     set group
 
-    # Read and group fdupes output.
+    # Read and group `Fdupes` output.
     fdupes -r . | while read -l line
         if test -z "$line"
             if test (count $group) -gt 0
