@@ -1,45 +1,62 @@
 # Set the directory for installing applications and casks.
 cask_args appdir: '/Applications'
 
-# Install necessary `taps` for `homebrew` dependencies.
-tap 'caskroom/homebrew-cask' || true
-tap 'caskroom/versions' || true
+# Install necessary `homebrew` and `macOS` taps.
 tap 'argon/mas'
+tap 'buo/cask-upgrade'
 
 # Install dependencies for various utilities and applications.
+brew 'aria2'
 brew 'atuin'
+brew 'bat'
 brew 'bottom'
+brew 'displayplacer'
+brew 'eva'
+brew 'eza'
 brew 'fastfetch'
+brew 'fd'
 brew 'fdupes'
 brew 'ffmpeg'
 brew 'fish'
+brew 'fisher'
 brew 'fzf'
 brew 'gh'
-brew 'git'
+brew 'helix'
+brew 'jless'
 brew 'mas'
 brew 'mise'
-brew 'spaceship'
+brew 'scrcpy'
+brew 'sd'
+brew 'starship'
 brew 'telnet'
 brew 'tig'
+brew 'xh'
+brew 'zoxide'
 
+# TODO: Install and configure `scetchybar`.
 # Install applications.
-brew 'syncthing'
-
-# Install casks.
+cask 'android-platform-tools'
+cask 'brave-browser'
 cask 'chatgpt'
+cask 'docker'
 cask 'filen'
-cask "font-fira-code"
+cask 'font-fira-code'
 cask 'google-chrome'
 cask 'keepassxc'
-cask "kdiff3"
+cask 'kdiff3'
 cask 'localsend'
+cask 'maccy'
+cask 'macfuse'
+cask 'mediosz/tap/swipeaerospace'
+cask 'nikitabobko/tap/aerospace'
 cask 'obsidian'
 cask 'postman'
 cask 'signal'
 cask 'spotify'
+cask 'sublime-text'
+cask 'syncthing'
 cask 'utm'
 cask 'veracrypt'
-cask 'veracrypt-fuse'
 cask 'viber'
 cask 'visual-studio-code'
 cask 'vlc'
