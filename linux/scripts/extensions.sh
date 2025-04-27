@@ -1,15 +1,18 @@
 #!/bin/bash
 
-# Install the needed extensions.
-paru -S --noconfirm --needed - < gnome/packages/extensions.txt
+# Catch exit signal (`CTRL` + `C`) to terminate the whole script.
+trap "exit" INT
 
-# Enable GNOME extensions.
+# Terminate script on error.
+set -e
+
+# Enable `GNOME` extensions.
 gnome-extensions enable dash-to-dock@micxgx.gmail.com
 gnome-extensions enable blur-my-shell@aunetx
 gnome-extensions enable appindicatorsupport@rgcjonas.gmail.com
 gnome-extensions enable just-perfection-desktop@just-perfection
 
-# Dock configuration.
+# `Dock` configuration.
 gsettings set org.gnome.shell.extensions.dash-to-dock transparency-mode 'FIXED'
 gsettings set org.gnome.shell.extensions.dash-to-dock background-opacity 0.5
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-position 'BOTTOM'
