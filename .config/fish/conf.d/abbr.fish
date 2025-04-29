@@ -1,27 +1,15 @@
 # Shell configuration abbreviations.
-abbr efa "code ~/.config/fish/conf.d/abbr.fish"
+abbr efa "code ~/.config/fish/conf.d"
 abbr efc "code ~/.config/fish/config.fish"
 abbr eff "code ~/.config/fish/functions"
 
 # System abbreviations.
-abbr um "rate-mirrors --disable-comments-in-file --save mirrors.txt arch && cat mirrors.txt | head -n 5 | sudo tee /etc/pacman.d/mirrorlist && sudo rm mirrors.txt"
-abbr us "sudo pacman-db-upgrade && sudo pacman -Sy && sudo pacman -S --noconfirm --needed archlinux-keyring && paru -Su --noconfirm"
-abbr pi "paru -S --noconfirm --needed"
-abbr pr "paru -Rns --noconfirm"
 abbr ff "fastfetch"
-abbr ip "ip -br a | grep UP | awk '{print \"Interface: \" \$1 \"\nIPv4: \" \$3}'"
-abbr po "sudo systemctl poweroff"
-abbr zzz "sudo systemctl suspend"
 
 # Terminal tools abbreviations.
 abbr cat "bat"
 abbr ls "eza --long --all --icons --color=always --group-directories-first --git"
 abbr cp "cp_to_xcp"
-abbr t "trash"
-abbr tl "trash list"
-abbr te "trash_empty"
-abbr tr "trash_restore"
-abbr tea "trash empty --all"
 abbr eva "calc"
 abbr cd "z"
 abbr cl "clear"
@@ -35,17 +23,7 @@ abbr hs "atuin search -i"
 abbr cl "clear"
 abbr rmdp "keep_best_file | xargs rm -v"
 
-# Services abbreviations.
-abbr sc "sudo systemctl"
-abbr scsts "sudo systemctl status"
-abbr sci "sudo systemctl info"
-abbr scstr "sudo systemctl start"
-abbr sce "sudo systemctl enable"
-abbr scstp "sudo systemctl stop"
-abbr scd "sudo systemctl disable"
-abbr scrr "sudo systemctl reload-or-restart"
-
-# Git abbreviations.
+# `Git` abbreviations.
 abbr egc "code ~/.gitconfig"
 abbr g "git"
 abbr gl "git log"
@@ -96,10 +74,13 @@ abbr gmr "git revert -m 1"
 abbr grc "git revert"
 abbr gm "git_merge_to_default_branch"
 
-# Docker abbreviations.
+# `Docker` abbreviations.
 abbr d "docker"
-abbr dc "docker-compose"
-abbr dcu "docker-compose up --build -d"
-abbr dcd "docker-compose down"
-abbr de "docker-compose exec --it /bin/bash"
-abbr dcp "docker compose down -v --remove-orphans && echo y | docker system prune -a --volumes"
+
+# `OS`-specific abbreviations.
+set kernel_name (uname -s)
+if test "$kernel_name" = "Darwin"
+    source $HOME/.config/fish/conf.d/macos/abbr.fish
+else
+    source $HOME/.config/fish/conf.d/linux/abbr.fish
+end
