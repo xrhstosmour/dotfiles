@@ -4,18 +4,20 @@
 #   log_base COLOR -n "Message to log without newline"
 function log_base
     set color $argv[1]
+    set format_string '%b%b%b%b\n'
     set prefix "\n"
 
     # Check if the message should be printed without a newline.
     if test "$argv[2]" = "-n"
+        set format_string '%b%b%b%b'
         set prefix ""
-        set argv $argv[3..-1]
+        set message "$argv[3]"
     else
-        set argv $argv[2..-1]
+        set message "$argv[2]"
     end
 
-    set message "$argv[1]"
-    echo -e "$prefix$color$message$NO_COLOR" >&2
+    # Use printf with %b to interpret escapes in the arguments (like \n in prefix).
+    printf "$format_string" "$prefix" "$color" "$message" "$NO_COLOR" >&2
 end
 
 # Function to log an info message.
