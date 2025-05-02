@@ -22,7 +22,7 @@
         "disableLinewrap": false,
         "separator": "",
         "temp": {
-            "unit": "CELSIUS"
+            "unit": "C"
         },
         "size": {
             "binaryPrefix": "jedec"
@@ -58,7 +58,7 @@
         {
             "type": "os",
             "key": "{#90}│ {#93}OS          {#90}│",
-            "format": "{$3}{pretty-name}"
+            "format": "{$3}{name} {#2}[{version}]"
         },
         {
             "type": "kernel",
@@ -68,12 +68,12 @@
         {
             "type": "bios",
             "key": "{#90}│ {#93}BIOS        {#90}│",
-            "format": "{$3}{version} {#2}[{release}]"
+            "format": "{$3}{version}"
         },
         {
             "type": "packages",
             "key": "{#90}│ {#93}Packages    {#90}│",
-            "format": "{$3}{2} (pacman){?3}{3}{?}"
+            "format": "{$3}{all}"
         },
         {
             "type": "uptime",
@@ -123,17 +123,17 @@
         {
             "type": "de",
             "key": "{#90}│ {#92}DE          {#90}│",
-            "format": "{$3}{pretty-name} {#2}[{version}]"
+            "format": "{$3}{pretty-name}"
         },
         {
             "type": "wm",
             "key": "{#90}│ {#92}WM          {#90}│",
-            "format": "{$3}{pretty-name} {#2}[{protocol-name}]"
+            "format": "{$3}{pretty-name}"
         },
         {
             "type": "font",
             "key": "{#90}│ {#92}Font        {#90}│",
-            "format": "{$3}{combined}"
+            "format": "{$3}{font1}"
         },
         {
             "type": "icons",
