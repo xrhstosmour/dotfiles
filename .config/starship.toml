@@ -6,7 +6,7 @@ add_newline = true
 [cmd_duration]
 min_time = 4
 show_milliseconds = false
-format = " 🕙 $duration "
+format = "🕙$duration "
 style = "bold italic #87A752"
 
 # Directory.
@@ -54,7 +54,7 @@ style = "bold blue"
 # Git.
 [git_branch]
 format = "on [$symbol$branch]($style) "
-symbol = " "
+symbol = ""
 style = "bold yellow"
 
 [git_commit]
@@ -66,59 +66,59 @@ format = '[\($state( $progress_current of $progress_total)\)]($style) '
 
 [git_status]
 conflicted = "⚔️ "
-ahead = "🏎️ ×${count}"
-behind = "🐢 ×${count}"
-diverged = "🏎️ ×${ahead_count} 🐢 ×${behind_count}"
-untracked = "🛤️  ×${count}"
+ahead = "🏎️ ×${count} "
+behind = "🐢×${count} "
+diverged = "🏎️ ×${ahead_count} 🐢×${behind_count} "
+untracked = "🛤️ ×${count} "
 stashed = "📦 "
-modified = "📝 ×${count} "
-staged = "🗃️ ×${count}"
-renamed = "📛 ×${count}"
-deleted = "🗑️ ×${count}"
+modified = "📝×${count} "
+staged = "🗃️ ×${count} "
+renamed = "📛 ×${count} "
+deleted = "🗑️ ×${count} "
 style = "bright-white"
 format = "$all_status$ahead_behind"
 
 # Languages & Tools.
 [nodejs]
-format = "⬢ $version "
+format = "⬢$version "
 style = "bold green"
 
 [rust]
-format = "🦀 $version "
+format = "🦀$version "
 style = "bold red"
 
 [python]
-format = "🐍 $version "
+format = "🐍$version "
 style = "bold blue"
 
 [golang]
-format = "🐹 $version "
+format = "🐹$version "
 style = "bold cyan"
 
 [java]
-format = "☕ $version "
+format = "☕$version "
 style = "bold purple"
 
 [kubernetes]
-format = "☸️ $context "
+format = "☸️$context "
 style = "bold blue"
 
 [docker_context]
-format = "🐳 $context "
+format = "🐳$context "
 style = "blue bold"
 
 [c]
-format = "⚙️ $version "
+format = "⚙️$version "
 style = "bold orange"
 
 [dotnet]
-format = "☁️ $version "
+format = "☁️$version "
 style = "bold blue"
 
 [dart]
-format = "🎯 $version "
+format = "🎯$version "
 style = "bold cyan"
 
 [ruby]
-format = "💎 $version "
+format = "💎$version "
 style = "bold red"
