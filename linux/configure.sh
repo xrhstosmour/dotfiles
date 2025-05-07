@@ -1,7 +1,16 @@
 #!/bin/bash
 
-# Install the needed GNOME dependencies.
-paru -S --noconfirm --needed - < gnome/packages/dependencies.txt
+# Catch exit signal (`CTRL` + `C`) to terminate the whole script.
+trap "exit" INT
+
+# Terminate script on error.
+set -e
+
+# Install the needed dependencies.
+paru -S --noconfirm --needed - <packages/linux/dependencies.txt
+
+# Install the applications.
+paru -S --noconfirm --needed - <packages/linux/applications.txt
 
 # Disable the GNOME sleep when in AC mode.
 gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
@@ -30,10 +39,10 @@ gsettings set org.gnome.desktop.interface icon-theme 'MoreWaita'
 
 # Configure keybindings.
 # ? Export commands:
-# ? dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > gnome/keybindings/custom.conf
-# ? dconf dump /org/gnome/desktop/wm/keybindings/ > gnome/keybindings/window_manager.conf
-cat gnome/keybindings/custom.conf | dconf load /org/gnome/settings-daemon/plugins/media-keys/
-cat gnome/keybindings/windows_manager.conf | dconf load /org/gnome/desktop/wm/keybindings/
+# ? dconf dump /org/gnome/settings-daemon/plugins/media-keys/ > linux/keybindings/custom.conf
+# ? dconf dump /org/gnome/desktop/wm/keybindings/ > linux/keybindings/window_manager.conf
+cat linux/keybindings/custom.conf | dconf load /org/gnome/settings-daemon/plugins/media-keys/
+cat linux/keybindings/windows_manager.conf | dconf load /org/gnome/desktop/wm/keybindings/
 
 # Remove not needed GNOME packages.
 declare -a packages=(
@@ -64,7 +73,7 @@ declare -a packages=(
 )
 
 for package in "${packages[@]}"; do
-    if paru -Qi "$package" &> /dev/null; then
+    if paru -Qi "$package" &>/dev/null; then
         paru -Rns --noconfirm "$package"
     fi
 done
@@ -104,10 +113,10 @@ gsettings set org.gnome.shell favorite-apps "[
 ]"
 
 # Configure startup applications.
-sh gnome/scripts/startup.sh
+sh linux/scripts/startup.sh
 
-# Configure GNOME extensions.
-sh gnome/scripts/extensions.sh
+# Configure `GNOME` extensions.
+sh linux/scripts/extensions.sh
 
 # Enable `gdm` service.
 sudo systemctl enable gdm
