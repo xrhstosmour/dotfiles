@@ -68,12 +68,12 @@
         {
             "type": "bios",
             "key": "{#90}│ {#93}BIOS        {#90}│",
-            "format": "{$3}{version} {#2}[{release}]"
+            "format": "{$3}{version}"
         },
         {
             "type": "packages",
             "key": "{#90}│ {#93}Packages    {#90}│",
-            "format": "{$3}{2} (pacman){?3}{3}{?}"
+            "format": "{$3}{2} (all){?3}{3}{?}"
         },
         {
             "type": "uptime",
@@ -123,12 +123,12 @@
         {
             "type": "de",
             "key": "{#90}│ {#92}DE          {#90}│",
-            "format": "{$3}{pretty-name} {#2}[{version}]"
+            "format": "{$3}{pretty-name}"
         },
         {
             "type": "wm",
             "key": "{#90}│ {#92}WM          {#90}│",
-            "format": "{$3}{pretty-name} {#2}[{protocol-name}]"
+            "format": "{$3}{pretty-name}"
         },
         {
             "type": "font",

@@ -1,45 +1,54 @@
 # Set the directory for installing applications and casks.
 cask_args appdir: '/Applications'
 
-# Install necessary `taps` for `homebrew` dependencies.
-tap 'caskroom/homebrew-cask' || true
-tap 'caskroom/versions' || true
+# Install necessary `homebrew` and `macOS` dependencies.
 tap 'argon/mas'
+tap 'buo/cask-upgrade'
 
 # Install dependencies for various utilities and applications.
 brew 'atuin'
+brew 'bat'
 brew 'bottom'
+brew 'displayplacer'
+brew 'eva'
+brew 'eza'
 brew 'fastfetch'
+brew 'fd'
 brew 'fdupes'
 brew 'ffmpeg'
 brew 'fish'
+brew 'fisher'
 brew 'fzf'
 brew 'gh'
-brew 'git'
+brew 'helix'
+brew 'jless'
 brew 'mas'
 brew 'mise'
-brew 'spaceship'
+brew 'sd'
+brew 'starship'
 brew 'telnet'
 brew 'tig'
+brew 'xh'
+brew 'zoxide'
 
 # Install applications.
-brew 'syncthing'
-
-# Install casks.
 cask 'chatgpt'
+cask 'docker'
 cask 'filen'
-cask "font-fira-code"
+cask 'font-fira-code'
 cask 'google-chrome'
 cask 'keepassxc'
-cask "kdiff3"
+cask 'kdiff3'
 cask 'localsend'
+cask 'macfuse'
 cask 'obsidian'
 cask 'postman'
 cask 'signal'
 cask 'spotify'
+cask 'sublime-text'
+cask 'syncthing'
 cask 'utm'
 cask 'veracrypt'
-cask 'veracrypt-fuse'
 cask 'viber'
 cask 'visual-studio-code'
 cask 'vlc'
