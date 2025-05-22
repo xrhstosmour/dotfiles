@@ -147,6 +147,9 @@ function git_auto_fix_up
             echo -e "$formatted_files"
         end
     ' --preview-window=right:50%:hidden:wrap
+
+    # Return success status regardless of fzf's exit status
+    return 0
 end
 
 # Function to show/list git stashes and interact with them using fzf.
