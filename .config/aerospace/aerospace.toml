@@ -1,0 +1,216 @@
+# This configuration supports both internal and external keyboards with
+# different key mappings applied via `macOS` keyboard settings:
+#
+# INTERNAL KEYBOARD MAPPINGS:
+# - Option ↔ Control (physical Option becomes Control, physical Control becomes Option)
+# - Globe key/FN  → Left Command
+# - Section Sign (£/§) → Tilde (~)
+#
+# EXTERNAL KEYBOARD MAPPINGS:
+# - Control ↔ Command (physical Control becomes Command, physical Command becomes Control)
+#
+# DUAL BINDINGS EXPLANATION:
+# Due to the different keyboard mappings, the same physical key press results
+# in different logical keys being sent to AeroSpace.
+
+# Start `Aerospace` at login.
+start-at-login = true
+
+# Enable normalization.
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Disable accordion padding.
+accordion-padding = 0
+
+# Set tiles layout as default.
+default-root-container-layout = 'tiles'
+
+# Set orientation according to monitor aspect ratio.
+default-root-container-orientation = 'auto'
+
+# Mouse follows focus when focused monitor changes.
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# Automatically re-appear hidden apps on `macOS`.
+automatically-unhide-macos-hidden-apps = false
+
+# Floating windows.
+[[on-window-detected]]
+if.app-name-regex-substring = 'finder'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'wezterm'
+run = 'layout floating'
+
+# Set key mapping preset.
+[key-mapping]
+preset = 'qwerty'
+
+# Gaps between each window.
+[gaps]
+inner.horizontal = 10
+inner.vertical = 10
+outer.left = 10
+outer.bottom = 10
+outer.top = 10
+outer.right = 10
+
+# 'main' binding mode declaration.
+[mode.main.binding]
+
+# Layout floating/tiling toggle (dual bindings for both keyboards).
+# Internal: Physical Option + Shift + F.
+# External: Physical Alt + Shift + F.
+alt-shift-f = 'layout floating tiling'
+ctrl-shift-f = 'layout floating tiling'
+
+# Join windows together (dual bindings for both keyboards).
+# Internal: Physical Control + Shift + Arrow.
+# External: Physical Super + Shift + Arrow.
+alt-shift-up = 'join-with up'
+ctrl-shift-up = 'join-with up'
+alt-shift-down = 'join-with down'
+ctrl-shift-down = 'join-with down'
+alt-shift-left = 'join-with left'
+ctrl-shift-left = 'join-with left'
+alt-shift-right = 'join-with right'
+ctrl-shift-right = 'join-with right'
+
+# Rotate the windows cyclically (dual bindings for both keyboards).
+# Internal: Physical Control + R.
+# External: Physical Super + R.
+alt-r = 'layout tiles horizontal vertical'
+ctrl-r = 'layout tiles horizontal vertical'
+
+# Focus navigation (dual bindings for both keyboards).
+# Internal: Physical Control + H/J/K/L.
+# External: Physical Super + H/J/K/L.
+alt-h = 'focus left'
+ctrl-h = 'focus left'
+alt-j = 'focus down'
+ctrl-j = 'focus down'
+alt-k = 'focus up'
+ctrl-k = 'focus up'
+alt-l = 'focus right'
+ctrl-l = 'focus right'
+
+# Move windows (dual bindings for both keyboards).
+# Internal: Physical Control + Shift + H/J/K/L.
+# External: Physical Super + Shift + H/J/K/L.
+alt-shift-h = 'move left'
+ctrl-shift-h = 'move left'
+alt-shift-j = 'move down'
+ctrl-shift-j = 'move down'
+alt-shift-k = 'move up'
+ctrl-shift-k = 'move up'
+alt-shift-l = 'move right'
+ctrl-shift-l = 'move right'
+
+# Resize the focused window.
+alt-shift-minus = 'resize smart -50'
+alt-shift-equal = 'resize smart +50'
+
+# Workspace management (dual bindings for both keyboards).
+# Internal: Physical Control + Number.
+# External: Physical Super + Number.
+alt-1 = 'workspace 1'
+ctrl-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+ctrl-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+ctrl-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+ctrl-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+ctrl-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+ctrl-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+ctrl-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+ctrl-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+ctrl-9 = 'workspace 9'
+alt-0 = 'workspace 10'
+ctrl-0 = 'workspace 10'
+
+# Move window to specific workspace (dual bindings for both keyboards).
+# Internal: Physical Control + Shift + Number.
+# External: Physical Super + Shift + Number.
+alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+ctrl-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+ctrl-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+ctrl-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+ctrl-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+ctrl-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+alt-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
+ctrl-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
+alt-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
+ctrl-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
+alt-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
+ctrl-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
+alt-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
+ctrl-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
+alt-shift-0 = 'move-node-to-workspace 10 --focus-follows-window'
+ctrl-shift-0 = 'move-node-to-workspace 10 --focus-follows-window'
+
+# Change workspace and focus it (dual bindings for both keyboards).
+# Internal: Physical Control + Tab.
+# External: Physical Super + Tab.
+alt-tab = 'workspace-back-and-forth'
+ctrl-tab = 'workspace-back-and-forth'
+
+# Move workspace to next monitor and focus it (dual bindings for both keyboards).
+# Internal: Physical Control + Shift + Tab.
+# External: Physical Super + Shift + Tab.
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+ctrl-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+# Change keyboard language (dual bindings for both keyboards).
+# Internal: Physical Control + Space.
+# External: Physical Super + Space.
+alt-space = 'exec-and-forget osascript ~/.config/scripts/switch_input_source.scpt'
+ctrl-space = 'exec-and-forget osascript ~/.config/scripts/switch_input_source.scpt'
+
+# Enter service mode (dual bindings for both keyboards).
+# Internal: Physical Control + ;.
+# External: Physical Super + ;.
+alt-semicolon = 'mode service'
+ctrl-semicolon = 'mode service'
+
+# Application shortcuts (dual bindings for both keyboards).
+# Internal: Physical Control + Letter.
+# External: Physical Super + Letter.
+alt-a = 'exec-and-forget ~/.config/scripts/open_spotlight.sh'
+ctrl-a = 'exec-and-forget ~/.config/scripts/open_spotlight.sh'
+alt-b = 'exec-and-forget open -a "/Applications/Google Chrome.app"'
+ctrl-b = 'exec-and-forget open -a "/Applications/Google Chrome.app"'
+alt-e = 'exec-and-forget open -a "/Applications/Visual Studio Code.app"'
+ctrl-e = 'exec-and-forget open -a "/Applications/Visual Studio Code.app"'
+alt-f = 'exec-and-forget open -a Finder'
+ctrl-f = 'exec-and-forget open -a Finder'
+alt-m = 'exec-and-forget open -a /Applications/Spotify.app'
+ctrl-m = 'exec-and-forget open -a /Applications/Spotify.app'
+alt-n = 'exec-and-forget open -a /Applications/Obsidian.app'
+ctrl-n = 'exec-and-forget open -a /Applications/Obsidian.app'
+alt-s = 'exec-and-forget open -a "/System/Applications/System Settings.app"'
+ctrl-s = 'exec-and-forget open -a "/System/Applications/System Settings.app"'
+alt-t = 'exec-and-forget open -a "/Applications/Sublime Text.app"'
+ctrl-t = 'exec-and-forget open -a "/Applications/Sublime Text.app"'
+alt-enter = 'exec-and-forget osascript ~/.config/scripts/open_wezterm.scpt'
+ctrl-enter = 'exec-and-forget osascript ~/.config/scripts/open_wezterm.scpt'
+
+# 'service' binding mode declaration.
+[mode.service.binding]
+
+# After entering service mode, press `L` to reload the configuration.
+l = ['reload-config', 'mode main']
+
+# After entering service mode, press `R` to reload the configuration and return to the main mode.
+r = ['flatten-workspace-tree', 'mode main']
