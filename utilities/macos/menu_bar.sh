@@ -30,4 +30,5 @@ apply_menu_bar_configuration() {
     defaults write com.apple.controlcenter Bluetooth -int 18
 
     log_success "'Menu Bar' configuration applied successfully."
+    log_divider
 }

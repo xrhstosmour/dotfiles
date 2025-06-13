@@ -62,3 +62,10 @@ log_error() {
   local error="$1"
   printf "${prefix}${BOLD_RED}%s${NO_COLOR}\n" "$error" >&2
 }
+
+# Function to log a visual divider for better section separation.
+# Usage:
+#   log_divider
+log_divider() {
+  printf "\n\n${BOLD_BLUE}%s${NO_COLOR}\n\n" "──────────────────────────────────────────────────────────────────────────────────────" >&2
+}

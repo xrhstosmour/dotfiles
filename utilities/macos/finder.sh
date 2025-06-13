@@ -76,4 +76,5 @@ apply_finder_configuration() {
     defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
     log_success "'Finder' configuration applied successfully."
+    log_divider
 }

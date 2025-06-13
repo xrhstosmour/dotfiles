@@ -20,3 +20,5 @@ if ! xcode-select -p &>/dev/null; then
 else
   log_warning "'Xcode' command line tools are already installed."
 fi
+
+log_divider

@@ -21,8 +21,6 @@ source "$PREFERENCES_SCRIPT_DIRECTORY/../../utilities/macos/appearance.sh"
 source "$PREFERENCES_SCRIPT_DIRECTORY/../../utilities/macos/display.sh"
 source "$PREFERENCES_SCRIPT_DIRECTORY/../../utilities/macos/system.sh"
 
-log_info "Applying 'macOS' Preferences..."
-
 apply_finder_configuration
 apply_dock_configuration
 apply_menu_bar_configuration
@@ -32,5 +30,3 @@ apply_sound_configuration
 apply_appearance_configuration
 apply_display_configuration
 apply_system_configuration
-
-log_success "'macOS' Preferences applied successfully."

@@ -59,6 +59,7 @@ apply_keyboard_configuration() {
     keyboard_configure_internal_keyboard
 
     log_success "Keyboard configuration applied successfully."
+    log_divider
 }
 
 # Function to clear all existing keyboard mappings.

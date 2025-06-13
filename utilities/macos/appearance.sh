@@ -38,4 +38,5 @@ apply_appearance_configuration() {
     defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
 
     log_success "Appearance configuration applied successfully."
+    log_divider
 }

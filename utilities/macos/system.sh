@@ -87,4 +87,5 @@ apply_system_configuration() {
     done
 
     log_success "System configuration applied successfully."
+    log_divider
 }

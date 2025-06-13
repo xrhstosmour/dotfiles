@@ -39,4 +39,5 @@ apply_trackpad_configuration() {
     defaults write com.apple.finder FXEnableDictionary -bool false
 
     log_success "Trackpad configuration applied successfully."
+    log_divider
 }

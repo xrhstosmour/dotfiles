@@ -18,6 +18,7 @@ mkdir -p ~/.config && cp -R .config/* ~/.config/
 
 log_info "Copying 'Git' configuration..."
 cp "$INSTALL_SCRIPT_DIRECTORY/.gitconfig" ~
+log_divider
 
 # Detect `OS` and run the appropriate configuration script.
 os_name=$(uname -s)

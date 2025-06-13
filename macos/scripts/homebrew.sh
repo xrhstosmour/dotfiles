@@ -33,3 +33,5 @@ if ! command -v brew &>/dev/null; then
 else
   log_warning "'Homebrew' is already installed."
 fi
+
+log_divider

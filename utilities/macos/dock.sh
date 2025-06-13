@@ -87,4 +87,5 @@ apply_dock_configuration() {
     defaults write com.apple.dock minimize-to-application -bool true
 
     log_success "'Dock' configuration applied successfully."
+    log_divider
 }

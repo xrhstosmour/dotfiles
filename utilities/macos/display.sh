@@ -38,4 +38,5 @@ apply_display_configuration() {
     fi
 
     log_success "Display configuration applied successfully."
+    log_divider
 }

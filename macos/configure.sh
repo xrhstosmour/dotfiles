@@ -21,6 +21,7 @@ sh macos/scripts/homebrew.sh
 # Install dependencies and applications.
 log_info "Installing needed dependencies and applications..."
 brew bundle install --file=packages/macos/Brewfile
+log_divider
 
 # Configure shell.
 sh macos/scripts/shell.sh
