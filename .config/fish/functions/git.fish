@@ -219,6 +219,9 @@ function git_stash_list
             echo -e "$formatted_files"
         end
     ' --preview-window=right:50%:hidden:wrap
+
+    # Return success status regardless of `fzf`'s exit status.
+    return 0
 end
 
 # Function to show git log for the current branch and interact with it using fzf.
