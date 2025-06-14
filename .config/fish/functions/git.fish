@@ -514,8 +514,6 @@ function git_merge_to_default_branch
     log_info "Force pushing `$current_branch` to `$remote/$upstream_branch`..."
     git push "$remote" "HEAD:$upstream_branch" --force-with-lease
 
-    # Prepare for merge preview.
-    log_info "Preparing to merge `$current_branch` into `$branch_to_be_merged`..."
     git checkout "$local_branch"
     git reset --hard "$default_branch"
     git fetch "$remote" "$upstream_branch"
