@@ -447,7 +447,8 @@ function git_merge_to_default_branch
     set branch_to_be_merged ""
     set new_commits_count 0
     set no_ff_option ""
-    set merge_commit_msg ""
+    set merge_commit_title ""
+    set merge_commit_body ""
 
     # Safety check: Ensure no rebase is ongoing.
     if test -d (git rev-parse --git-dir)/rebase-merge -o -d (git rev-parse --git-dir)/rebase-apply
@@ -464,50 +465,36 @@ function git_merge_to_default_branch
     set current_branch (git rev-parse --abbrev-ref HEAD)
     log_info "Currently on `$current_branch` branch."
 
-    # Step 2: Resolve upstream branch (same logic as Ruby script).
+    # Step 2: Resolve upstream branch.
     set upstream_branch (git rev-parse --abbrev-ref "@{upstream}" 2>/dev/null; or echo "$current_branch")
-    if not git ls-remote --heads --exit-code "$remote" "$upstream_branch" 2>/dev/null
+    if not git ls-remote --heads --exit-code "$remote" "$upstream_branch" >/dev/null 2>&1
         read -P "Please enter the branch name for fetch/push operations: " upstream_branch
     end
-    log_info "Tracking the remote branch `$upstream_branch`..."
+    log_info "Branch tracking the remote branch `$upstream_branch`."
 
-    # Step 3: Get default branch.
-    set default_branch (git_get_default_branch)
-
-    # Step 4: Rebase current branch onto default branch.
-    git_fetch_and_rebase "" true
+    # Fetch and rebase current branch onto master/main.
+    git_fetch_and_rebase "" false
     if test $status -ne 0
         log_error "Rebase failed, resolve conflicts/errors before running the script again!"
         return 1
     end
 
-    # Step 5: Force push current branch (with safety check).
+    # Get the base branch using the `git_get_default_branch` function.
+    set default_branch (git_get_default_branch)
+    set branch_to_be_merged "$remote/$upstream_branch"
+    set local_branch (string replace "origin/" "" "$default_branch")
+
+    # Force push current branch.
     log_info "Force pushing `$current_branch` to `$remote/$upstream_branch`..."
     git push "$remote" "HEAD:$upstream_branch" --force-with-lease
 
-    # Step 6: Prepare merge variables.
-    # Instead of using remote references directly, we'll use the local branch
-    # after ensuring it's up to date with the remote.
-    set local_default_branch (string replace "origin/" "" "$default_branch")
-
-    # Step 7: Switch to default branch and sync with remote.
-    log_info "Merging `$upstream_branch` to `$default_branch`..."
-    git checkout "$local_default_branch"
+    # Prepare for merge preview.
+    log_info "Preparing to merge `$current_branch` into `$branch_to_be_merged`..."
+    git checkout "$local_branch"
     git reset --hard "$default_branch"
-
-    # Make sure we have the latest from the upstream branch.
     git fetch "$remote" "$upstream_branch"
 
-    # Step 8: Calculate merge strategy and check if there are commits to merge.
-    # We'll use `FETCH_HEAD` which refers to the branch we just fetched.
-    set new_commits_count (git rev-list --count "$local_default_branch..FETCH_HEAD")
-
-    if test "$new_commits_count" -eq 0
-        log_info "No commits to merge from `$upstream_branch` to `$default_branch`."
-        git checkout "$current_branch"
-        return 0
-    end
-
+    set new_commits_count (git rev-list --count "$default_branch..FETCH_HEAD")
     if test "$new_commits_count" -gt 1
         set no_ff_option "--no-ff"
         set merge_commit_title "Merge branch '$upstream_branch'"
@@ -516,22 +503,20 @@ function git_merge_to_default_branch
         end
     end
 
-    # Step 9: Show commits and ask for confirmation (safety check).
-    log_warning "The following commits will be merged from `$upstream_branch` to `$default_branch`:"
-    git --no-pager log --decorate --graph --oneline "$local_default_branch..FETCH_HEAD"
+    log_info "The following commits will be merged from `$upstream_branch` to `$default_branch`:"
+    git --no-pager log --decorate --graph --oneline "$default_branch..FETCH_HEAD"
 
-    read -P "Do you want to push your local commits to $default_branch? (Y/N): " push_confirmation
-
-    if test "$push_confirmation" = "y" -o "$push_confirmation" = "Y"
-        # Step 10: Perform the merge.
+    log_warning "Do you want to merge and push these commits to `$default_branch`? (Y/N):"
+    read user_confirm
+    if test "$user_confirm" = "y" -o "$user_confirm" = "Y"
         if test -n "$merge_commit_title"
             if test -n "$merge_commit_body"
-                git merge "FETCH_HEAD" $no_ff_option -m "$merge_commit_title" -m "$merge_commit_body"
+                git merge FETCH_HEAD $no_ff_option -m "$merge_commit_title" -m "$merge_commit_body"
             else
-                git merge "FETCH_HEAD" $no_ff_option -m "$merge_commit_title"
+                git merge FETCH_HEAD $no_ff_option -m "$merge_commit_title"
             end
         else
-            git merge "FETCH_HEAD" $no_ff_option
+            git merge FETCH_HEAD $no_ff_option
         end
 
         if test $status -ne 0
@@ -540,26 +525,17 @@ function git_merge_to_default_branch
             return 1
         end
 
-        # Step 11: Push to remote default branch.
-        git push "$remote" "$local_default_branch"
-
+        git push "$remote" "$local_branch"
         if test $status -ne 0
             log_error "Push to `$default_branch` failed!"
-            log_warning "The merge procedure will be retried from the beginning..."
-            # Reset and retry (like Ruby script)
             git reset --hard HEAD^
             git checkout "$current_branch"
-            git_merge_to_default_branch $argv
-            return $status
+            return 1
         end
-
-        log_success "Merge and push to `$default_branch` was successful."
+        log_success "Push to `$default_branch` was successful."
     else
-        # User chose not to push - abort safely.
-        log_info "Merge to `$default_branch` was aborted."
-        # No need to reset, as no merge was performed
+        log_info "Merge and push to `$default_branch` was aborted."
         git checkout "$current_branch"
-        return 0
     end
 end
 
