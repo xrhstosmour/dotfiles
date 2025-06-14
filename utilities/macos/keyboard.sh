@@ -56,7 +56,6 @@ apply_keyboard_configuration() {
     # Apply keyboard configurations.
     log_info "Configuring keybindings..."
     keyboard_configure_external_keyboards
-    # TODO: Add Delete → Right Shift mapping for internal keyboards.
     keyboard_configure_internal_keyboard
 
     log_success "Keyboard configuration applied successfully."
@@ -153,12 +152,12 @@ keyboard_configure_external_keyboards() {
 }
 
 # Function to configure internal keyboard.
-# Applies Option ↔ Control swap, Globe → Command, and Section Sign → Tilde mappings.
+# Applies Option ↔ Control swap, Globe → Command, Section Sign → Tilde and right Shift → Delete mappings.
 # Uses per-keyboard defaults for modifier keys and `hidutil` for special keys.
 # Usage:
 #   keyboard_configure_internal_keyboard
 keyboard_configure_internal_keyboard() {
-    log_info "Configuring internal keyboard (Option ↔ Control, Globe → Command, Section Sign → Tilde)..."
+    log_info "Configuring internal keyboard (Option ↔ Control, Globe → Command, Section Sign → Tilde, Right Shift → Delete)..."
 
     # First, configure Option ↔ Control via per-keyboard mapping.
     local keyboard_ids=$(keyboard_detect_internal_keyboard)
@@ -176,7 +175,7 @@ keyboard_configure_internal_keyboard() {
     fi
 
     # Then, configure Globe → Command and Section Sign → Tilde via `hidutil`.
-    log_info "Applying Globe → Command and Section Sign → Tilde mappings..."
+    log_info "Applying Globe → Command, Section Sign → Tilde and Right Shift → Delete mappings..."
     /usr/bin/hidutil property --set '{"UserKeyMapping":[
         {
           "HIDKeyboardModifierMappingSrc": 0xFF00000003,
@@ -185,6 +184,10 @@ keyboard_configure_internal_keyboard() {
         {
           "HIDKeyboardModifierMappingSrc": 0x700000064,
           "HIDKeyboardModifierMappingDst": 0x700000035
+        },
+        {
+          "HIDKeyboardModifierMappingSrc": 0x7000000E5,
+          "HIDKeyboardModifierMappingDst": 0x70000004C
         }
     ]}' >/dev/null 2>&1
 
@@ -194,7 +197,7 @@ keyboard_configure_internal_keyboard() {
     if [ $keyboard_modified_count -eq 0 ]; then
         log_warning "No internal keyboard detected for modifier key mapping."
     else
-        log_success "Internal keyboard configured (Option ↔ Control, Globe → Command, Section Sign → Tilde)."
+        log_success "Internal keyboard configured (Option ↔ Control, Globe → Command, Section Sign → Tilde, Right Shift → Delete)."
     fi
 }
 
@@ -229,6 +232,10 @@ keyboard_create_launch_agent() {
             {
               "HIDKeyboardModifierMappingSrc": 0x700000064,
               "HIDKeyboardModifierMappingDst": 0x700000035
+            },
+            {
+              "HIDKeyboardModifierMappingSrc": 0x7000000E5,
+              "HIDKeyboardModifierMappingDst": 0x70000004C
             }
         ]}</string>
     </array>

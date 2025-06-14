@@ -14,7 +14,7 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - **Shell**: Switch default shell to `Fish` and add to `/etc/shells`.
 - **`Finder`**: Apply tweaks (show path/status bar, hidden files, list view, disable `.DS_Store` on network/USB drives).
 - **`Dock` & Menu Bar**: Configure layout (clear existing, add preferred apps, autohide, hide recents, show battery/volume/`Bluetooth` icons).
-- **Keyboard Remapping**: Modifier swaps (Control⇄Option/Command⇄Control), Globe→Command, Section Sign→Tilde; persisted via LaunchAgent.
+- **Keyboard Remapping**: Swaps (Control⇄Option/Command⇄Control), Globe→Command, Section Sign→Tilde, Right Shift→Delete, persisted via LaunchAgent.
 - **`AeroSpace` Window Manager**: Dual keyboard support with:
   - Window navigation (H/J/K/L), movement, and resizing with consistent bindings.
   - Workspace switching and window-to-workspace movement (1-10).
@@ -54,7 +54,6 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - Add divider for non-pinned applications in `Dock`.
 - Remove unneeded Applications from `macOS` Applications folder.
 - Install and configure `sketchybar` on `macOS`.
-- Add Delete to Right Shift mapping for internal keyboards on `macOS`.
 - Configure desktop vs. server environment on `Arch Linux`.
 - Integrate missing settings from the `arch-tuner` repository on `Arch Linux`.
 - Replace `fzf` with `skim` in `Fish` functions (`git`, `trashy`).
