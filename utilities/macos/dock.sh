@@ -50,8 +50,6 @@ apply_dock_configuration() {
         fi
     done
 
-    # TODO: Add divider to the `Dock` for non pinned applications.
-
     # Disable single application mode.
     log_info "Disabling single application mode..."
     defaults write com.apple.dock single-app -bool false
