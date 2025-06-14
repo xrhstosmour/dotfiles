@@ -443,13 +443,13 @@ function git_merge_to_default_branch
     set no_ff_option ""
     set merge_commit_msg ""
 
-    # Check if a rebase is ongoing.
+    # Safety check: Ensure no rebase is ongoing.
     if test -d (git rev-parse --git-dir)/rebase-merge -o -d (git rev-parse --git-dir)/rebase-apply
         log_error "Rebase in progress, operation stopped!"
         return 1
     end
 
-    # Checkout the specified branch if provided.
+    # Step 1: Checkout specified branch if provided.
     if test -n "$argv[1]"
         log_info "Checking out `$argv[1]` branch..."
         git checkout "$argv[1]"
@@ -458,70 +458,85 @@ function git_merge_to_default_branch
     set current_branch (git rev-parse --abbrev-ref HEAD)
     log_info "Currently on `$current_branch` branch."
 
-    # Resolve upstream branch.
+    # Step 2: Resolve upstream branch (same logic as Ruby script).
     set upstream_branch (git rev-parse --abbrev-ref "@{upstream}" 2>/dev/null; or echo "$current_branch")
     if not git ls-remote --heads --exit-code "$remote" "$upstream_branch" 2>/dev/null
         read -P "Please enter the branch name for fetch/push operations: " upstream_branch
     end
-    log_info "Branch tracking the remote branch `$upstream_branch`."
+    log_info "Tracking the remote branch `$upstream_branch`..."
 
-    # Fetch and rebase current branch onto default branch.
-    git_fetch_and_rebase "" false
+    # Step 3: Get default branch.
+    set default_branch (git_get_default_branch)
+
+    # Step 4: Rebase current branch onto default branch.
+    git_fetch_and_rebase "" true
     if test $status -ne 0
         log_error "Rebase failed, resolve conflicts/errors before running the script again!"
         return 1
     end
 
-    # Get the default branch using the `git_get_default_branch` function.
-    set default_branch (git_get_default_branch)
-
-    # Force push current branch.
+    # Step 5: Force push current branch (with safety check).
     log_info "Force pushing `$current_branch` to `$remote/$upstream_branch`..."
     git push "$remote" "HEAD:$upstream_branch" --force-with-lease
 
-    # Merge to default branch.
+    # Step 6: Prepare merge variables.
     set branch_to_be_merged "$remote/$upstream_branch"
-    log_info "Merging `$current_branch` to `$branch_to_be_merged`..."
-    git checkout (string replace "origin/" "" "$default_branch")
+    set local_default_branch (string replace "origin/" "" "$default_branch")
+
+    # Step 7: Switch to default branch and sync with remote.
+    log_info "Merging `$upstream_branch` to `$default_branch`..."
+    git checkout "$local_default_branch"
     git reset --hard "$default_branch"
 
-    # Check if the branch to be merged has more than one commit.
+    # Step 8: Calculate merge strategy.
     set new_commits_count (git rev-list --count "$default_branch..$branch_to_be_merged")
     if test "$new_commits_count" -gt 1
         set no_ff_option "--no-ff"
-    end
-
-    # Check if a PR number is provided.
-    if test -n "$no_ff_option"
-        set merge_commit_msg "-m Merge branch `$branch_to_be_merged`"
+        set merge_commit_msg "-m \"Merge remote-tracking branch '$branch_to_be_merged'\""
         if test -n "$argv[2]"
-            set merge_commit_msg "$merge_commit_msg -m Closes #$argv[2]"
+            set merge_commit_msg "$merge_commit_msg -m \"Closes #$argv[2]\""
         end
     end
 
-    git merge "$branch_to_be_merged" $no_ff_option $merge_commit_msg
+    # Step 9: Show commits and ask for confirmation (safety check).
+    log_warning "The following commits will be merged from `$branch_to_be_merged` to `$default_branch`..."
+    git --no-pager log --decorate --graph --oneline "$default_branch..$branch_to_be_merged"
 
-    # Extract the branch name without the 'origin/' prefix.
-    set local_branch (string replace "origin/" "" "$default_branch")
+    read -P "Do you want to push your local commits to $default_branch? (Y/N): " push_confirmation
 
-    log_info "The commits listed below will be pushed to `$default_branch`:"
-    git --no-pager log --decorate --graph --oneline "$local_branch...$default_branch"
+    if test "$push_confirmation" = "y" -o "$push_confirmation" = "Y"
+        # Step 10: Perform the merge.
+        if test -n "$merge_commit_msg"
+            git merge "$branch_to_be_merged" $no_ff_option $merge_commit_msg
+        else
+            git merge "$branch_to_be_merged" $no_ff_option
+        end
 
-    # Prompt the user for confirmation.
-    log_warning "Would you like to push your local commits to `$default_branch`? (Y/N) "
-    read push_to_default_branch
-    if test "$push_to_default_branch" = "y" -o "$push_to_default_branch" = "Y"
-        git push "$remote" "$local_branch"
         if test $status -ne 0
-            log_error "Push to `$default_branch` failed!"
-            git reset --hard HEAD^
+            log_error "Merge failed!"
             git checkout "$current_branch"
             return 1
         end
-        log_success "Push to `$default_branch` was successful!"
+
+        # Step 11: Push to remote default branch.
+        git push "$remote" "$local_default_branch"
+
+        if test $status -ne 0
+            log_error "Push to `$default_branch` failed!"
+            log_warning "The merge procedure will be retried from the beginning..."
+            # Reset and retry (like Ruby script)
+            git reset --hard HEAD^
+            git checkout "$current_branch"
+            git_merge_to_default_branch $argv
+            return $status
+        end
+
+        log_success "Merge and push to `$default_branch` was successful."
     else
-        log_info "Push to `$default_branch` was aborted!"
+        # User chose not to push - abort safely.
+        log_info "Merge to `$default_branch` was aborted."
         git reset --hard HEAD^
         git checkout "$current_branch"
+        return 0
     end
 end
