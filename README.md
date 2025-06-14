@@ -34,6 +34,20 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - **Clock**: Set 24-hour format and custom date format.
 - **Security**: Enable firewall and stealth mode; whitelist file-sharing apps.
 - **Monitoring**: Configure Activity Monitor and Login Items.
+- **Default App Removal & Cleanup**: The following default `macOS` applications and their Library data are removed for a cleaner system:
+  - `GarageBand`
+  - `iMovie`
+  - `Pages`
+  - `Keynote`
+  - `Books`
+  - `Chess`
+  - `Dictionary`
+  - `Numbers`
+  - `News`
+  - `Podcasts`
+  - `Stocks`
+  - `TV`
+  - `Music`
 
 ## `Arch Linux` Configuration
 
@@ -51,8 +65,6 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - Disable True Tone on `macOS`.
 - Disable Automatically Adjust Brightness on `macOS`.
 - Skip display changes if resolution is already non-default.
-- Add divider for non-pinned applications in `Dock`.
-- Remove unneeded Applications from `macOS` Applications folder.
 - Install and configure `sketchybar` on `macOS`.
 - Configure desktop vs. server environment on `Arch Linux`.
 - Integrate missing settings from the `arch-tuner` repository on `Arch Linux`.
