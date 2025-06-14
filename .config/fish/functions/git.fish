@@ -497,7 +497,7 @@ function git_merge_to_default_branch
     set new_commits_count (git rev-list --count "$default_branch..FETCH_HEAD")
     if test "$new_commits_count" -gt 1
         set no_ff_option "--no-ff"
-        set merge_commit_title "Merge branch '$upstream_branch'"
+        set merge_commit_title "Merge branch \`$upstream_branch\`"
         if test -n "$argv[2]"
             set merge_commit_body "Closes #$argv[2]"
         end
