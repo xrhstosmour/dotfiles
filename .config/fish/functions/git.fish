@@ -309,70 +309,96 @@ function git_list_branches
     # Get the current branch.
     set current_branch (git branch --show-current)
 
-    # Get the list of all branches.
-    set -l all_branches (git branch -av --format='%(refname:short)' | string split '\n')
+    # Get all local and remote branches as arrays.
+    set -l all_branches (git branch -a --format='%(refname:short)')
+    set -l merged_branches (git branch -a --merged $default_branch | sed 's/^[* ]*//')
+    set -l local_branches (git branch --format='%(refname:short)')
+    set -l not_pushed_local_branches (git for-each-ref --format="%(refname:short) %(push:track)" refs/heads | grep '\[gone\]' | awk '{print $1}')
 
-    # Get the list of all local not pushed branches.
-    set -l not_pushed_local_branches (git for-each-ref --format="%(refname:short) %(push:track)" refs/heads | grep '\[gone\]' | awk '{print $1}' | string split '\n')
+    # Remove merged branches from all_branches.
+    set -l branch_list
+    for b in $all_branches
+        set found 0
+        for m in $merged_branches
+            if test "$b" = "$m"
+                set found 1
+                break
+            end
+        end
+        if test $found -eq 0
+            set branch_list $branch_list $b
+        end
+    end
 
-    # Get the list of all merged branches.
-    set -l merged_branches (git branch -a --merged $default_branch | sed 's/^[* ]*//' | string split '\n')
+    # Remove remote branches that have a corresponding local branch.
+    set -l branch_list2
+    for b in $branch_list
+        set skip 0
+        for l in $local_branches
+            if test "$b" = "origin/$l"
+                set skip 1
+                break
+            end
+        end
+        if test $skip -eq 0
+            set branch_list2 $branch_list2 $b
+        end
+    end
 
-    # Exclude merged branches from all branches.
-    set -l branch_list (echo "$all_branches" | grep -v -F -f <(echo "$merged_branches") | string split '\n')
+    # Exclude origin/HEAD.
+    set -l branch_list3
+    for b in $branch_list2
+        if test "$b" != "origin/HEAD"
+            set branch_list3 $branch_list3 $b
+        end
+    end
 
-    # Exclude remote branches that have a corresponding local branch.
-    set -l local_branches (git branch --format='%(refname:short)' | string split '\n')
-    set -l branch_list (echo "$branch_list" | grep -v -F -f <(echo "$local_branches" | sed 's/^/origin\//') | string split '\n')
+    # Add not pushed local branches.
+    for b in $not_pushed_local_branches
+        if not contains $b $branch_list3
+            set branch_list3 $branch_list3 $b
+        end
+    end
 
-    # Exclude `origin/HEAD`
-    set -l branch_list (echo "$branch_list" | grep -v '^origin/HEAD$' | string split '\n')
+    # Remove empty entries.
+    set -l final_branches
+    for b in $branch_list3
+        if test -n "$b"
+            set final_branches $final_branches $b
+        end
+    end
 
-    # Add the not pushed local branches to the list.
-    set -l branch_list (echo -e "$branch_list\n$not_pushed_local_branches" | sort -u | string split '\n')
-
-    # Check if the branch list is empty.
-    if test -z "$branch_list"
+    if test (count $final_branches) -eq 0
         echo "No branches found!"
         return 1
     end
 
-    # Loop through the array.
-    for line in $branch_list
-        # Check if the branch is the current one.
+    for line in $final_branches
         if test "$line" = "$current_branch"
-            # Print the current branch name in green.
             echo -e "$BOLD_YELLOW$line$NO_COLOR"
         else
-            # Print the branch name in yellow.
             echo -e "$BOLD_GREEN$line$NO_COLOR"
         end
     end | fzf --ansi --bind 'enter:execute(git checkout {1})+abort,delete:execute(git branch -d {1})+abort,tab:execute(git diff {1})+abort,?:toggle-preview' --preview '
-        # Extract branch name from the selection.
         set branch_name {1}
-
-        # Get the author, date, and files for the branch.
         set author (git log -1 --pretty=format:"%an" $branch_name)
         set date (git log -1 --pretty=format:"%ad" --date=format-local:"%d/%m/%Y at %H:%M:%S" $branch_name)
         set files (git ls-tree -r $branch_name --name-only)
-
-        # Color constants are not working in the preview window so we use the hardcoded ANSI escape codes.
-        # Add "- " in front of each file line with green color.
         set formatted_files ""
         for file in $files
             set formatted_files "$formatted_files\e[1;32m-\e[0m $file\n"
         end
-
         echo -e "\e[1;33mBranch:\e[0m $branch_name\n"
         echo -e "\e[1;36mAuthor:\e[0m $author"
         echo -e "\e[1;36mDate:\e[0m $date\n"
-
-        # Show "Files:" and the list of files only if there are any files.
         if test -n "$files"
             echo -e "\e[1;32mFiles:\e[0m"
             echo -e "$formatted_files"
         end
     ' --preview-window=right:50%:hidden:wrap
+
+    # Always return 0 so that escape/abort does not show as error.
+    return 0
 end
 
 # Function to cherry-pick specific commits from different branches.
@@ -470,7 +496,7 @@ function git_merge_to_default_branch
     if not git ls-remote --heads --exit-code "$remote" "$upstream_branch" >/dev/null 2>&1
         read -P "Please enter the branch name for fetch/push operations: " upstream_branch
     end
-    log_info "Branch tracking the remote branch `$upstream_branch`."
+    log_info "Tracking the remote branch `$upstream_branch`..."
 
     # Fetch and rebase current branch onto master/main.
     git_fetch_and_rebase "" false
@@ -488,8 +514,6 @@ function git_merge_to_default_branch
     log_info "Force pushing `$current_branch` to `$remote/$upstream_branch`..."
     git push "$remote" "HEAD:$upstream_branch" --force-with-lease
 
-    # Prepare for merge preview.
-    log_info "Preparing to merge `$current_branch` into `$branch_to_be_merged`..."
     git checkout "$local_branch"
     git reset --hard "$default_branch"
     git fetch "$remote" "$upstream_branch"
@@ -497,7 +521,7 @@ function git_merge_to_default_branch
     set new_commits_count (git rev-list --count "$default_branch..FETCH_HEAD")
     if test "$new_commits_count" -gt 1
         set no_ff_option "--no-ff"
-        set merge_commit_title "Merge branch '$upstream_branch'"
+        set merge_commit_title "Merge branch \`$upstream_branch\`"
         if test -n "$argv[2]"
             set merge_commit_body "Closes #$argv[2]"
         end
