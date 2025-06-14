@@ -56,6 +56,7 @@ apply_keyboard_configuration() {
     # Apply keyboard configurations.
     log_info "Configuring keybindings..."
     keyboard_configure_external_keyboards
+    # TODO: Add Delete → Right Shift mapping for internal keyboards.
     keyboard_configure_internal_keyboard
 
     log_success "Keyboard configuration applied successfully."

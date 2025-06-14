@@ -54,6 +54,7 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - Add divider for non-pinned applications in `Dock`.
 - Remove unneeded Applications from `macOS` Applications folder.
 - Install and configure `sketchybar` on `macOS`.
+- Add Delete to Right Shift mapping for internal keyboards on `macOS`.
 - Configure desktop vs. server environment on `Arch Linux`.
 - Integrate missing settings from the `arch-tuner` repository on `Arch Linux`.
 - Replace `fzf` with `skim` in `Fish` functions (`git`, `trashy`).
