@@ -44,5 +44,6 @@ fi
 log_success "System configuration completed!"
 
 # Reboot system.
-log_info "Initiating system reboot..."
+log_info "Initiating system reboot in 15 seconds..."
+sleep 15
 sudo reboot
