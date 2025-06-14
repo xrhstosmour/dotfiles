@@ -457,8 +457,8 @@ function git_merge_to_default_branch
     log_info "Currently on `$current_branch` branch."
 
     # Resolve upstream branch.
-    set upstream_branch (git rev-parse --abbrev-ref "@{upstream}" ^/dev/null; or echo "$current_branch")
-    if not git ls-remote --heads --exit-code "$remote" "$upstream_branch" ^/dev/null
+    set upstream_branch (git rev-parse --abbrev-ref "@{upstream}" 2>/dev/null; or echo "$current_branch")
+    if not git ls-remote --heads --exit-code "$remote" "$upstream_branch" 2>/dev/null
         read -P "Please enter the branch name for fetch/push operations: " upstream_branch
     end
     log_info "Branch tracking the remote branch `$upstream_branch`."
