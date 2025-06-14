@@ -65,9 +65,11 @@ function git_fetch_and_rebase
 
 
     # Check for uncommitted changes if autostash is disabled.
-    if test "$autostash_enabled" = "false" -a (not git diff-index --quiet HEAD --)
-        log_error "Commit or stash your uncommitted changes before rebasing!"
-        return 1
+    if test "$autostash_enabled" = "false"
+        if not git diff-index --quiet HEAD --
+            log_error "Commit or stash your uncommitted changes before rebasing!"
+            return 1
+        end
     end
 
     log_info "Fetching and rebasing onto `$branch_to_rebase_onto`..."
