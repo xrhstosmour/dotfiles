@@ -546,3 +546,22 @@ function git_merge_to_default_branch
         return 0
     end
 end
+
+# Function to set upstream branch for current branch.
+# Usage:
+#   git_add_remote_branch
+function git_add_remote_branch
+    set current_branch (git rev-parse --abbrev-ref HEAD)
+    set remote "origin"
+
+    log_info "Setting upstream for `$current_branch` to `$remote/$current_branch`..."
+    git branch --set-upstream-to="$remote/$current_branch" "$current_branch"
+
+    if test $status -eq 0
+        log_success "Successfully set upstream for `$current_branch` to `$remote/$current_branch`."
+        return 0
+    else
+        log_error "Failed to set upstream for `$current_branch`!"
+        return 1
+    end
+end

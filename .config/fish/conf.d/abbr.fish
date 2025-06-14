@@ -74,6 +74,7 @@ abbr grp "git prune && rm -rf ./.git/gc.log && git gc --prune now && git remote 
 abbr gmr "git revert -m 1"
 abbr grc "git revert"
 abbr gm "git_merge_to_default_branch"
+abbr gsu "git_add_remote_branch"
 
 # `Docker` abbreviations.
 abbr d "docker"
