@@ -67,8 +67,24 @@ apply_system_configuration() {
         fi
     done
 
-    # TODO: Delete not needed applications from the `Applications` folder.
-    # Delete GarageBand, iMovie, Pages, Keynote, Books, Chess, Dictionary, Numbers, News, Podcasts, Stocks.
+    # Remove unneeded default applications from the Applications folder.
+    log_info "Removing unneeded default applications from /Applications..."
+    for app in "GarageBand" "iMovie" "Pages" "Keynote" "Books" "Chess" "Dictionary" "Numbers" "News" "Podcasts" "Stocks" "TV" "Music"; do
+        if [ -d "/Applications/$app.app" ]; then
+            sudo rm -rf "/Applications/$app.app"
+            log_info "Removed $app.app."
+        fi
+    done
+
+    # Remove leftover user/library data for deleted apps.
+    log_info "Removing leftover Library data for deleted apps..."
+    for dir in "~/Library/Containers/com.apple.TV" "~/Library/Containers/com.apple.Music" "~/Library/Containers/com.apple.iWork.Pages" "~/Library/Containers/com.apple.iWork.Keynote" "~/Library/Containers/com.apple.iWork.Numbers"; do
+        eval expanded_dir=$dir
+        if [ -d "$expanded_dir" ]; then
+            rm -rf "$expanded_dir"
+            log_info "Removed $expanded_dir."
+        fi
+    done
 
     # Show all processes in `Activity Monitor`.
     log_info "Showing all processes in 'Activity Monitor'..."
