@@ -496,7 +496,7 @@ function git_merge_to_default_branch
     if not git ls-remote --heads --exit-code "$remote" "$upstream_branch" >/dev/null 2>&1
         read -P "Please enter the branch name for fetch/push operations: " upstream_branch
     end
-    log_info "Branch tracking the remote branch `$upstream_branch`."
+    log_info "Tracking the remote branch `$upstream_branch`..."
 
     # Fetch and rebase current branch onto master/main.
     git_fetch_and_rebase "" false
