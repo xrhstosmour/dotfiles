@@ -286,6 +286,9 @@ function git_log_current_branch
             echo -e "$formatted_files"
         end
     ' --preview-window=right:50%:hidden:wrap
+
+    # Return success status regardless of `fzf`'s exit status.
+    return 0
 end
 
 # Function to show all branches not merged or deleted and interact with them using fzf.
