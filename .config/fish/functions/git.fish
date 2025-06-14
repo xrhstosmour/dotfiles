@@ -486,7 +486,8 @@ function git_merge_to_default_branch
     git push "$remote" "HEAD:$upstream_branch" --force-with-lease
 
     # Step 6: Prepare merge variables.
-    set branch_to_be_merged "$remote/$upstream_branch"
+    # Instead of using remote references directly, we'll use the local branch
+    # after ensuring it's up to date with the remote.
     set local_default_branch (string replace "origin/" "" "$default_branch")
 
     # Step 7: Switch to default branch and sync with remote.
@@ -494,28 +495,43 @@ function git_merge_to_default_branch
     git checkout "$local_default_branch"
     git reset --hard "$default_branch"
 
-    # Step 8: Calculate merge strategy.
-    set new_commits_count (git rev-list --count "$default_branch..$branch_to_be_merged")
+    # Make sure we have the latest from the upstream branch.
+    git fetch "$remote" "$upstream_branch"
+
+    # Step 8: Calculate merge strategy and check if there are commits to merge.
+    # We'll use `FETCH_HEAD` which refers to the branch we just fetched.
+    set new_commits_count (git rev-list --count "$local_default_branch..FETCH_HEAD")
+
+    if test "$new_commits_count" -eq 0
+        log_info "No commits to merge from `$upstream_branch` to `$default_branch`."
+        git checkout "$current_branch"
+        return 0
+    end
+
     if test "$new_commits_count" -gt 1
         set no_ff_option "--no-ff"
-        set merge_commit_msg "-m \"Merge remote-tracking branch '$branch_to_be_merged'\""
+        set merge_commit_title "Merge branch '$upstream_branch'"
         if test -n "$argv[2]"
-            set merge_commit_msg "$merge_commit_msg -m \"Closes #$argv[2]\""
+            set merge_commit_body "Closes #$argv[2]"
         end
     end
 
     # Step 9: Show commits and ask for confirmation (safety check).
-    log_warning "The following commits will be merged from `$branch_to_be_merged` to `$default_branch`..."
-    git --no-pager log --decorate --graph --oneline "$default_branch..$branch_to_be_merged"
+    log_warning "The following commits will be merged from `$upstream_branch` to `$default_branch`:"
+    git --no-pager log --decorate --graph --oneline "$local_default_branch..FETCH_HEAD"
 
     read -P "Do you want to push your local commits to $default_branch? (Y/N): " push_confirmation
 
     if test "$push_confirmation" = "y" -o "$push_confirmation" = "Y"
         # Step 10: Perform the merge.
-        if test -n "$merge_commit_msg"
-            git merge "$branch_to_be_merged" $no_ff_option $merge_commit_msg
+        if test -n "$merge_commit_title"
+            if test -n "$merge_commit_body"
+                git merge "FETCH_HEAD" $no_ff_option -m "$merge_commit_title" -m "$merge_commit_body"
+            else
+                git merge "FETCH_HEAD" $no_ff_option -m "$merge_commit_title"
+            end
         else
-            git merge "$branch_to_be_merged" $no_ff_option
+            git merge "FETCH_HEAD" $no_ff_option
         end
 
         if test $status -ne 0
@@ -541,7 +557,7 @@ function git_merge_to_default_branch
     else
         # User chose not to push - abort safely.
         log_info "Merge to `$default_branch` was aborted."
-        git reset --hard HEAD^
+        # No need to reset, as no merge was performed
         git checkout "$current_branch"
         return 0
     end
