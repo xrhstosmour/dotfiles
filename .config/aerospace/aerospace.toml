@@ -61,10 +61,16 @@ outer.right = 10
 [mode.main.binding]
 
 # Layout floating/tiling toggle (dual bindings for both keyboards).
+# Internal: Physical Option + Shift + T.
+# External: Physical Alt + Shift + T.
+alt-shift-t = 'layout floating tiling'
+ctrl-shift-t = 'layout floating tiling'
+
+# Toggle fullscreen (dual bindings for both keyboards).
 # Internal: Physical Option + Shift + F.
 # External: Physical Alt + Shift + F.
-alt-shift-f = 'layout floating tiling'
-ctrl-shift-f = 'layout floating tiling'
+alt-shift-f = 'fullscreen'
+ctrl-shift-f = 'fullscreen'
 
 # Join windows together (dual bindings for both keyboards).
 # Internal: Physical Control + Shift + Arrow.
