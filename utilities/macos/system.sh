@@ -67,6 +67,16 @@ apply_system_configuration() {
         fi
     done
 
+    # Exclude applications from quarantine.
+    log_info "Exclude applications from quarantine..."
+    for app in "LocalSend" "Syncthing"; do
+        if [ -d "/Applications/$app.app" ]; then
+            log_info "Exclude $app from quarantine..."
+            sudo xattr -dr com.apple.quarantine "/Applications/$app.app"
+        fi
+    done
+
+
     # Remove unneeded default applications from the Applications folder.
     log_info "Removing unneeded default applications from /Applications..."
     for app in "GarageBand" "iMovie" "Pages" "Keynote" "Books" "Chess" "Dictionary" "Numbers" "News" "Podcasts" "Stocks" "TV" "Music"; do
