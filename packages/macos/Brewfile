@@ -1,8 +1,9 @@
 # Set the directory for installing applications and casks.
 cask_args appdir: '/Applications'
 
-# Install necessary `homebrew` and `macOS` taps.
+# Install necessary `homebrew`, `macOS` and third party taps.
 tap 'argon/mas'
+tap 'avasilic/goto'
 tap 'buo/cask-upgrade'
 
 # Install dependencies for various utilities and applications.
@@ -31,6 +32,7 @@ brew 'sd'
 brew 'starship'
 brew 'telnet'
 brew 'tig'
+brew 'goto-ssh'
 brew 'xh'
 brew 'zoxide'
 
