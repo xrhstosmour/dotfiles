@@ -74,3 +74,4 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 
 - **`macOS` 15+ Permissions**: Grant Input Monitoring permission to `/usr/bin/hidutil` and `/usr/bin/sudo` via System Settings → Privacy & Security → Input Monitoring.
 - **AeroSpace Permissions**: Scripts require Accessibility permissions via System Settings → Privacy & Security → Accessibility for `Spotlight` functionality to work properly.
+- **Full Disk Access Required**: For system cleanup and quarantine removal, you must grant Full Disk Access to your Terminal (or script runner). Go to System Settings → Privacy & Security → Full Disk Access, add your Terminal app, and restart it before running this script. This is required for modifying protected files and attributes.

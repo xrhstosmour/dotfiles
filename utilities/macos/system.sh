@@ -67,6 +67,7 @@ apply_system_configuration() {
         fi
     done
 
+    # ! IMPORTANT: You need to grant `Full Disk Access` to the terminal running this script.
     # Exclude applications from quarantine.
     log_info "Exclude applications from quarantine..."
     for app in "LocalSend" "Syncthing"; do
