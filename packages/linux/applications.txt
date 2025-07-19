@@ -17,6 +17,7 @@ gnome-shell-extension-blur-my-shell
 gnome-shell-extension-dash-to-dock
 gnome-tweaks
 google-chrome
+goto-ssh-bin
 gufw
 keepassxc
 libappindicator-gtk3
