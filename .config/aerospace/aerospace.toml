@@ -193,8 +193,8 @@ ctrl-semicolon = 'mode service'
 # Application shortcuts (dual bindings for both keyboards).
 # Internal: Physical Control + Letter.
 # External: Physical Super + Letter.
-alt-a = 'exec-and-forget ~/.config/scripts/open_spotlight.sh'
-ctrl-a = 'exec-and-forget ~/.config/scripts/open_spotlight.sh'
+alt-p = 'exec-and-forget ~/.config/scripts/open_spotlight.sh'
+ctrl-p = 'exec-and-forget ~/.config/scripts/open_spotlight.sh'
 alt-b = 'exec-and-forget open -a "/Applications/Google Chrome.app"'
 ctrl-b = 'exec-and-forget open -a "/Applications/Google Chrome.app"'
 alt-e = 'exec-and-forget open -a "/Applications/Visual Studio Code.app"'
