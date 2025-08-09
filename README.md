@@ -21,8 +21,9 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
   - Application shortcuts: Spotlight (A), Chrome (B), VS Code (E), Finder (F), Spotify (M), Obsidian (N), System Settings (S), Sublime Text (T), Terminal (Enter).
   - Input source switching (Space) and layout rotation (R).
   - Layout floating/tiling toggle (Option/Alt + Shift + F).
-  - Service mode (; key) for configuration reload (L) and layout reset (R).
+  - Service mode (; key) for configuration reload (L), for layout reset (R), for workspace dynamic re-split (W).
   - Dual bindings for internal (Alt) and external keyboards (Ctrl) to handle key remapping.
+- **Reload Configured Environment Keybinding:** Reloads `Aerospace` configuration, flattens the workspace tree, re-splits workspaces across monitors and reloads all keyboard mappings and keybindings (SUPER + \\)
 - **Display**: Adjust settings (hide the notch by stepping down resolution, cache original resolution).
 - **Appearance**: Configure themes, wallpapers, dark mode.
 - **Audio**: Configure sound settings.
