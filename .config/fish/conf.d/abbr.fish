@@ -23,6 +23,7 @@ abbr hs "atuin search -i"
 abbr cl "clear"
 abbr rmdp "keep_best_file | xargs rm -v"
 abbr dl "aria2c -x 10 "
+abbr st "gg"
 
 # `Git` abbreviations.
 abbr egc "code ~/.gitconfig"
