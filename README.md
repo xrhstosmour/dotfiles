@@ -70,7 +70,6 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - Configure desktop vs. server environment on `Arch Linux`.
 - Integrate missing settings from the `arch-tuner` repository on `Arch Linux`.
 - Replace `fzf` with `skim` in `Fish` functions (`git`, `trashy`).
-- Helix editor installation may require manual fixes.
 
 ## Notes
 

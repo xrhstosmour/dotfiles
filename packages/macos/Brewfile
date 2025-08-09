@@ -22,7 +22,6 @@ brew 'fish'
 brew 'fisher'
 brew 'fzf'
 brew 'gh'
-# TODO: Fix `helix` installation.
 brew 'helix'
 brew 'jless'
 brew 'mas'
