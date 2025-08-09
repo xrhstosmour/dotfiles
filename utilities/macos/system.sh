@@ -54,8 +54,8 @@ apply_system_configuration() {
 
     # Enable Firewall and stealth mode with exceptions for file sharing apps
     log_info "Enabling firewall and stealth mode with exceptions for file sharing apps..."
-    /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
-    /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
+    sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
 
     # Allow file sharing applications through firewall.
     log_info "Exclude applications from the firewall rules..."
