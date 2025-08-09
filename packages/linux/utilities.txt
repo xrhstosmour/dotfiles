@@ -21,6 +21,7 @@ mise
 networkmanager
 ntfsprogs
 sd
+superfile
 trashy
 xcp
 xh
