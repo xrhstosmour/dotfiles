@@ -29,7 +29,7 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - **Trackpad**: Configure gestures and click behavior.
 - **`Bluetooth`**: Turn off when unneeded.
 - **Screenshots**: Save to Desktop in PNG format.
-- **Scrollbars**: Set always displayed.
+- **Scroll Bars**: Set always displayed.
 - **System**: Disable Siri and password hints.
 - **Clock**: Set 24-hour format and custom date format.
 - **Security**: Enable firewall and stealth mode; whitelist file-sharing apps.

@@ -215,8 +215,8 @@ ctrl-enter = 'exec-and-forget osascript ~/.config/scripts/open_wezterm.scpt'
 # 'service' binding mode declaration.
 [mode.service.binding]
 
-# After entering service mode, press `L` to reload the configuration.
+# After entering service mode, press L to reload the configuration.
 l = ['reload-config', 'mode main']
 
-# After entering service mode, press `R` to reload the configuration and return to the main mode.
+# After entering service mode, press R to reload the configuration and return to the main mode.
 r = ['flatten-workspace-tree', 'mode main']
