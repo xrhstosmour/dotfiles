@@ -181,8 +181,8 @@ ctrl-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 # Change keyboard language (dual bindings for both keyboards).
 # Internal: Physical Control + Space.
 # External: Physical Super + Space.
-alt-space = 'exec-and-forget osascript ~/.config/scripts/switch_input_source.scpt'
-ctrl-space = 'exec-and-forget osascript ~/.config/scripts/switch_input_source.scpt'
+alt-space = 'exec-and-forget osascript ~/.config/scripts/utilities/macos/switch_input_source.scpt'
+ctrl-space = 'exec-and-forget osascript ~/.config/scripts/utilities/macos/switch_input_source.scpt'
 
 # Enter service mode (dual bindings for both keyboards).
 # Internal: Physical Control + ;.
@@ -193,8 +193,8 @@ ctrl-semicolon = 'mode service'
 # Application shortcuts (dual bindings for both keyboards).
 # Internal: Physical Control + Letter.
 # External: Physical Super + Letter.
-alt-a = 'exec-and-forget ~/.config/scripts/open_spotlight.sh'
-ctrl-a = 'exec-and-forget ~/.config/scripts/open_spotlight.sh'
+alt-a = 'exec-and-forget ~/.config/scripts/utilities/macos/open_spotlight.sh'
+ctrl-a = 'exec-and-forget ~/.config/scripts/utilities/macos/open_spotlight.sh'
 alt-b = 'exec-and-forget open -a "/Applications/Google Chrome.app"'
 ctrl-b = 'exec-and-forget open -a "/Applications/Google Chrome.app"'
 alt-e = 'exec-and-forget open -a "/Applications/Visual Studio Code.app"'
@@ -209,8 +209,8 @@ alt-s = 'exec-and-forget open -a "/System/Applications/System Settings.app"'
 ctrl-s = 'exec-and-forget open -a "/System/Applications/System Settings.app"'
 alt-t = 'exec-and-forget open -a "/Applications/Sublime Text.app"'
 ctrl-t = 'exec-and-forget open -a "/Applications/Sublime Text.app"'
-alt-enter = 'exec-and-forget osascript ~/.config/scripts/open_wezterm.scpt'
-ctrl-enter = 'exec-and-forget osascript ~/.config/scripts/open_wezterm.scpt'
+alt-enter = 'exec-and-forget osascript ~/.config/scripts/utilities/macos/open_wezterm.scpt'
+ctrl-enter = 'exec-and-forget osascript ~/.config/scripts/utilities/macos/open_wezterm.scpt'
 
 # 'service' binding mode declaration.
 [mode.service.binding]
