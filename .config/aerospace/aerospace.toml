@@ -184,6 +184,12 @@ ctrl-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 alt-space = 'exec-and-forget osascript ~/.config/scripts/utilities/macos/switch_input_source.scpt'
 ctrl-space = 'exec-and-forget osascript ~/.config/scripts/utilities/macos/switch_input_source.scpt'
 
+# Reload environment (dual bindings for both keyboards).
+# Internal: Physical Control + Backslash.
+# External: Physical Super + Backslash.
+ctrl-backslash = 'exec-and-forget ~/.config/scripts/utilities/macos/reload_environment.sh'
+alt-backslash = 'exec-and-forget ~/.config/scripts/utilities/macos/reload_environment.sh'
+
 # Enter service mode (dual bindings for both keyboards).
 # Internal: Physical Control + ;.
 # External: Physical Super + ;.
