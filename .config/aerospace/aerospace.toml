@@ -220,3 +220,6 @@ l = ['reload-config', 'mode main']
 
 # After entering service mode, press R to reload the configuration and return to the main mode.
 r = ['flatten-workspace-tree', 'mode main']
+
+# After entering service mode, press W to configure workspaces based on current displays setup.
+w = ['exec-and-forget ~/.config/scripts/utilities/macos/configure_workspaces.sh', 'mode main']
