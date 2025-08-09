@@ -229,3 +229,6 @@ r = ['flatten-workspace-tree', 'mode main']
 
 # After entering service mode, press W to configure workspaces based on current displays setup.
 w = ['exec-and-forget ~/.config/scripts/utilities/macos/configure_workspaces.sh', 'mode main']
+
+# After entering service mode, press Backspace to close all windows except the current one.
+backspace = ['close-all-windows-but-current', 'mode main']
