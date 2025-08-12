@@ -69,6 +69,7 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - Install and configure `sketchybar` on `macOS`.
 - Configure desktop vs. server environment on `Arch Linux`.
 - Integrate missing settings from the `arch-tuner` repository on `Arch Linux`.
+- Check if we can replace `utm` with `quickemu` & `quickgui`.
 
 ## Notes
 

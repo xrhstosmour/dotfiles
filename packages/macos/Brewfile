@@ -58,6 +58,7 @@ cask 'signal'
 cask 'spotify'
 cask 'sublime-text'
 cask 'syncthing'
+# TODO: Check if we can replace `utm` with `quickemu` and `quickgui`.
 cask 'utm'
 cask 'veracrypt'
 cask 'viber'
