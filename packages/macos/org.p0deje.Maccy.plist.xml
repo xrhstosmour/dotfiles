@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>KeyboardShortcuts_delete</key>
+	<string>{"carbonKeyCode":51,"carbonModifiers":2048}</string>
+	<key>KeyboardShortcuts_pin</key>
+	<string>{"carbonModifiers":2048,"carbonKeyCode":35}</string>
+	<key>KeyboardShortcuts_popup</key>
+	<string>{"carbonKeyCode":9,"carbonModifiers":768}</string>
+	<key>NSStatusItem Visible Item-0</key>
+	<true/>
+	<key>NSStatusItem Visible Item-1</key>
+	<false/>
+	<key>NSWindow Frame SUUpdateAlert</key>
+	<string>425 371 620 398 0 0 1470 893 </string>
+	<key>NSWindow Frame com.sindresorhus.Settings.FrameAutosaveName</key>
+	<string>494 286 510 474 0 0 2560 1415 </string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUHasLaunchedBefore</key>
+	<true/>
+	<key>SULastCheckTime</key>
+	<date>2025-08-12T14:21:55Z</date>
+	<key>SUUpdateGroupIdentifier</key>
+	<integer>2370698874</integer>
+	<key>clearOnQuit</key>
+	<true/>
+	<key>clearSystemClipboard</key>
+	<true/>
+	<key>enabledPasteboardTypes</key>
+	<array>
+		<string>public.png</string>
+		<string>public.utf8-plain-text</string>
+		<string>public.rtf</string>
+		<string>public.html</string>
+		<string>public.tiff</string>
+		<string>public.file-url</string>
+	</array>
+	<key>menuIcon</key>
+	<string>clipboard</string>
+	<key>migrations</key>
+	<dict>
+		<key>2024-07-01-version-2</key>
+		<true/>
+	</dict>
+	<key>pasteByDefault</key>
+	<false/>
+	<key>pinTo</key>
+	<string>bottom</string>
+	<key>popupPosition</key>
+	<string>cursor</string>
+	<key>searchMode</key>
+	<string>fuzzy</string>
+	<key>showApplicationIcons</key>
+	<true/>
+	<key>showFooter</key>
+	<true/>
+	<key>showInStatusBar</key>
+	<true/>
+	<key>showSearch</key>
+	<true/>
+	<key>showTitle</key>
+	<false/>
+	<key>suppressClearAlert</key>
+	<false/>
+	<key>windowPosition</key>
+	<string>[0.17578125,1]</string>
+	<key>windowSize</key>
+	<string>[450,775]</string>
+</dict>
+</plist>
