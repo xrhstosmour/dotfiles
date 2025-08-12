@@ -25,6 +25,10 @@ apply_window_configuration(configuration)
 local apply_cursor_configuration = require("cursor")
 apply_cursor_configuration(configuration)
 
+-- Keybindings.
+local apply_keybindings_configuration = require("keybindings")
+apply_keybindings_configuration(configuration)
+
 -- Colors.
 configuration.colors = {
     foreground = constants.palette.white,
@@ -32,13 +36,9 @@ configuration.colors = {
     selection_fg = constants.palette.black,
     selection_bg = constants.palette.blue,
     ansi = {
-        constants.palette.black,
-        constants.palette.red,
-        constants.palette.green,
-        constants.palette.yellow,
-        constants.palette.blue,
-        constants.palette.magenta,
-        constants.palette.cyan,
+        constants.palette.black, constants.palette.red, constants.palette.green,
+        constants.palette.yellow, constants.palette.blue,
+        constants.palette.magenta, constants.palette.cyan,
         constants.palette.white
     }
 }
