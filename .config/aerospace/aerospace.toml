@@ -172,6 +172,14 @@ ctrl-shift-0 = 'move-node-to-workspace 10 --focus-follows-window'
 alt-tab = 'workspace-back-and-forth'
 ctrl-tab = 'workspace-back-and-forth'
 
+# Change workspace and focus it (dual bindings for both keyboards).
+# Internal: Physical Control + Right/Left.
+# External: Physical Super + Right/Left.
+alt-right = 'workspace next'
+ctrl-right = 'workspace next'
+alt-left = 'workspace prev'
+ctrl-left = 'workspace prev'
+
 # Move workspace to next monitor and focus it (dual bindings for both keyboards).
 # Internal: Physical Control + Shift + Tab.
 # External: Physical Super + Shift + Tab.
