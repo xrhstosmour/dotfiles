@@ -16,25 +16,33 @@ local function ctrl_c_action(window, pane)
     end
 end
 
+-- WezTerm keybindings:
+-- For external keyboards and Linux systems we are going to use CTRL.
+-- For internal macOS keyboards we are going to use Globe, which is remapped to CMD.
+--   CTRL/Globe+C: Copy selection if present, else send SIGINT to terminal.
+--   CTRL/Globe+V: Paste from clipboard.
+--   CTRL/Globe+D: Split pane horizontally.
+--   CTRL/Globe+T: New terminal tab.
+--   CTRL/Globe+N: New terminal window.
 return function(config)
+    local is_macos = wezterm.target_triple:find("apple") ~= nil
+    local mod = is_macos and "CMD" or "CTRL"
+
     config.keys = {
         {
             key = "c",
-            mods = "CTRL",
+            mods = mod,
             action = wezterm.action_callback(ctrl_c_action)
-        }, {
-            key = "c",
-            mods = "CTRL|SHIFT",
-            action = wezterm.action {SendKey = {key = "c", mods = "CTRL"}}
         },
         {
             key = "v",
-            mods = "CTRL",
+            mods = mod,
             action = wezterm.action.PasteFrom("Clipboard")
-        }, {
-            key = "v",
-            mods = "CTRL|SHIFT",
-            action = wezterm.action {SendKey = {key = "v", mods = "CTRL"}}
+        },
+        {
+            key = "d",
+            mods = mod,
+            action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" }
         }
     }
 end
