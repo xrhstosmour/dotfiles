@@ -8,6 +8,7 @@ set -e
 
 # TODO: Configure either desktop or server.
 # TODO: Add missing configuration from the `arch-tuner` repository.
+# TODO: Consider switching to configuration files managed by `omarchy`.
 
 # Install the needed utilities.
 paru -S --noconfirm --needed - <packages/linux/utilities.txt

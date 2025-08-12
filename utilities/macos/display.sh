@@ -18,10 +18,9 @@ apply_display_configuration() {
     log_info "Applying Display configuration..."
 
     # TODO: Disable `True Tone`.
-
     # TODO: Disable `Automatically adjust brightness`.
-
     # TODO: Do not change the display resolution if it is already set to a non default one.
+
     # Change display resolution to hide the notch.
     display_id=$(displayplacer list | grep -B 3 "Type: MacBook built in screen" | head -1 | sed 's/Persistent screen id: //')
     if [ -z "$display_id" ]; then
