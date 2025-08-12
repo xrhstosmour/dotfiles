@@ -69,7 +69,6 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - Install and configure `sketchybar` on `macOS`.
 - Configure desktop vs. server environment on `Arch Linux`.
 - Integrate missing settings from the `arch-tuner` repository on `Arch Linux`.
-- Replace `fzf` with `skim` in `Fish` functions (`git`, `trashy`).
 
 ## Notes
 

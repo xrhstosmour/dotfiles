@@ -1,4 +1,3 @@
-# TODO: Replace `fzf` with `skim`.
 # Function to restore files from trash.
 # Usage:
 #   trash_restore

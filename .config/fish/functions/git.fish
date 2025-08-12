@@ -1,4 +1,3 @@
-# TODO: Replace `fzf` with `skim`.
 # Function to stash changes with a default name.
 # Usage:
 #   git_stash "Stash message" or git_stash
