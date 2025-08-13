@@ -15,20 +15,20 @@ source "$APPLICATIONS_SCRIPT_DIRECTORY/../../helpers/logs.sh"
 
 # Declare application configuration sources, destinations and names.
 APPLICATIONS_SOURCES=(
-  "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/macos/org.p0deje.Maccy.plist.xml"
-  "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/keepassxc.ini"
-  "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/macos/.barik-config.toml"
-  "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/macos/aerospace.toml"
+  "$APPLICATIONS_SCRIPT_DIRECTORY/../../settings/macos/.barik-config.toml"
+  "$APPLICATIONS_SCRIPT_DIRECTORY/../../settings/macos/aerospace.toml"
+  "$APPLICATIONS_SCRIPT_DIRECTORY/../../settings/macos/org.p0deje.Maccy.plist.xml"
+  "$APPLICATIONS_SCRIPT_DIRECTORY/../../settings/keepassxc.ini"
 )
 APPLICATIONS_DESTINATIONS=(
-  "$HOME/Library/Containers/org.p0deje.Maccy/Data/Library/Preferences/org.p0deje.Maccy.plist"
-  "$HOME/Library/Application Support/KeePassXC/keepassxc.ini"
   "$HOME/.barik-config.toml"
   "$HOME/.config/aerospace/aerospace.toml"
+  "$HOME/Library/Containers/org.p0deje.Maccy/Data/Library/Preferences/org.p0deje.Maccy.plist"
+  "$HOME/Library/Application Support/KeePassXC/keepassxc.ini"
 )
 APPLICATIONS_NAMES=(
-  "Aerospace"
   "Barik"
+  "Aerospace"
   "Maccy"
   "KeePassXC"
 )
