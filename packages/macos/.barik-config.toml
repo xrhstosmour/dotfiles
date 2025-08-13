@@ -1,5 +1,6 @@
 theme = "dark"
 
+# TODO: Add widgets for `Bluetooth`, Volume, Microphone, and Brightness, also fix the Network widget.
 [widgets]
 displayed = [
     "default.spaces",
@@ -8,7 +9,7 @@ displayed = [
     "default.network",
     "default.battery",
     "divider",
-    "default.time"
+    "default.time",
 ]
 
 [widgets.default.spaces]

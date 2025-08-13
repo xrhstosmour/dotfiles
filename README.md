@@ -66,7 +66,7 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - Disable True Tone on `macOS`.
 - Disable Automatically Adjust Brightness on `macOS`.
 - Skip display changes if resolution is already non-default.
-- Install and configure `sketchybar` on `macOS`.
+- Add `barik` widgets for `Bluetooth`, Volume, Microphone, and Brightness, also fix the Network widget.
 - Configure desktop vs. server environment on `Arch Linux`.
 - Integrate missing settings from the `arch-tuner` repository on `Arch Linux`.
 - Check if we can replace `utm` with `quickemu` & `quickgui`.
