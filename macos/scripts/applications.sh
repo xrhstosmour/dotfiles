@@ -18,16 +18,19 @@ APPLICATIONS_SOURCES=(
   "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/macos/org.p0deje.Maccy.plist.xml"
   "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/keepassxc.ini"
   "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/macos/.barik-config.toml"
+  "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/macos/aerospace.toml"
 )
 APPLICATIONS_DESTINATIONS=(
   "$HOME/Library/Containers/org.p0deje.Maccy/Data/Library/Preferences/org.p0deje.Maccy.plist"
   "$HOME/Library/Application Support/KeePassXC/keepassxc.ini"
   "$HOME/.barik-config.toml"
+  "$HOME/.config/aerospace/aerospace.toml"
 )
 APPLICATIONS_NAMES=(
+  "Aerospace"
+  "Barik"
   "Maccy"
   "KeePassXC"
-  "Barik"
 )
 
 # Loop over all arrays in parallel.
