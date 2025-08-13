@@ -17,6 +17,10 @@ source "$MENU_BAR_SCRIPT_DIRECTORY/../../helpers/logs.sh"
 apply_menu_bar_configuration() {
     log_info "Applying 'Menu Bar' configuration..."
 
+    # Hide the `Menu Bar`.
+    log_info "Hiding the 'Menu Bar'..."
+    defaults write NSGlobalDomain _HIHideMenuBar -bool true
+
     # Show battery percentage in the `Menu Bar`.
     log_info "Showing battery percentage in the 'Menu Bar'..."
     defaults write com.apple.controlcenter BatteryShowPercentage -bool true
