@@ -106,7 +106,7 @@ apply_system_configuration() {
     defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
 
     log_info "Configuring 'Login Items'..."
-    for application in "Filen" "KeePassXC" "Maccy" "SwipeAeroSpace" "Syncthing"; do
+    for application in "Barik" "Filen" "KeePassXC" "Maccy" "SwipeAeroSpace" "Syncthing"; do
         if ! osascript -e 'tell application "System Events" to get the name of every login item' | tr ', ' '\n' | grep -Fxq "$application"; then
             log_info "Adding '$application' to login items..."
             osascript -e "tell application \"System Events\" to make login item at end with properties {name: \"$application\", path:\"/Applications/$application.app\", hidden:true}"

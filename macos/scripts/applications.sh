@@ -17,14 +17,17 @@ source "$APPLICATIONS_SCRIPT_DIRECTORY/../../helpers/logs.sh"
 APPLICATIONS_SOURCES=(
   "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/macos/org.p0deje.Maccy.plist.xml"
   "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/keepassxc.ini"
+  "$APPLICATIONS_SCRIPT_DIRECTORY/../../packages/.barik-config.toml"
 )
 APPLICATIONS_DESTINATIONS=(
   "$HOME/Library/Containers/org.p0deje.Maccy/Data/Library/Preferences/org.p0deje.Maccy.plist"
   "$HOME/Library/Application Support/KeePassXC/keepassxc.ini"
+  "$HOME/.barik-config.toml"
 )
 APPLICATIONS_NAMES=(
   "Maccy"
   "KeePassXC"
+  "Barik"
 )
 
 # Loop over all arrays in parallel.

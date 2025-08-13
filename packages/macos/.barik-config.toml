@@ -1,0 +1,40 @@
+theme = "dark"
+
+[widgets]
+displayed = [
+    "default.spaces",
+    "spacer",
+    "default.nowplaying",
+    "default.network",
+    "default.battery",
+    "divider",
+    "default.time"
+]
+
+[widgets.default.spaces]
+space.show-key = true
+window.show-title = true
+window.title.max-length = 50
+
+[widgets.default.nowplaying.popup]
+view-variant = "horizontal"
+
+[widgets.default.battery]
+show-percentage = true
+warning-level = 20
+critical-level = 10
+
+[widgets.default.time]
+format = "E d MMM, HH:mm"
+calendar.format = "HH:mm"
+calendar.show-events = false
+
+[widgets.default.time.popup]
+view-variant = "box"
+
+[experimental.background]
+displayed = false
+height = "menu-bar"
+
+[experimental.foreground]
+height = 40

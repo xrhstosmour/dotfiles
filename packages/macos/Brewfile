@@ -36,7 +36,6 @@ brew 'goto-ssh'
 brew 'xh'
 brew 'zoxide'
 
-# TODO: Install and configure `scetchybar`.
 # Install applications.
 cask 'android-platform-tools'
 cask 'brave-browser'
@@ -51,6 +50,7 @@ cask 'localsend'
 cask 'maccy'
 cask 'macfuse'
 cask 'mediosz/tap/swipeaerospace'
+cask 'mocki-toki/formulae/barik'
 cask 'nikitabobko/tap/aerospace'
 cask 'obsidian'
 cask 'postman'
