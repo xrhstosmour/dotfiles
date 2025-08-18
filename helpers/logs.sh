@@ -49,6 +49,20 @@ log_warning() {
   printf "${prefix}${BOLD_YELLOW}%s${NO_COLOR}\n" "$warning" >&2
 }
 
+# Function to log a question message using printf (purple color).
+# Usage:
+#   log_question "Question message to log"
+#   log_question -n "Question message to log without newline"
+log_question() {
+  local prefix="\n"
+  if [[ "$1" == "-n" ]]; then
+    prefix=""
+    shift
+  fi
+  local question="$1"
+  printf "${prefix}${BOLD_PURPLE}%s${NO_COLOR}\n" "$question" >&2
+}
+
 # Function to log an error message using printf.
 # Usage:
 #   log_error "Error message to log"
