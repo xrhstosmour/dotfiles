@@ -37,6 +37,7 @@ brew 'xh'
 brew 'zoxide'
 
 # Install applications.
+cask '1password'
 cask 'android-platform-tools'
 cask 'brave-browser'
 cask 'docker'
