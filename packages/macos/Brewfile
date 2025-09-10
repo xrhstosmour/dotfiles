@@ -53,6 +53,7 @@ cask 'mocki-toki/formulae/barik'
 cask 'nikitabobko/tap/aerospace'
 cask 'nordvpn'
 cask 'obsidian'
+# TODO: Install Perplexity via Homebrew or MacOS App Store cli.
 cask 'postman'
 cask 'signal'
 cask 'spotify'
