@@ -36,7 +36,7 @@ apply_dock_configuration() {
         "/Applications/Spotify.app"
         "/Applications/LocalSend.app"
         "/Applications/Obsidian.app"
-        "/Applications/KeePassXC.app"
+        "/Applications/1Password.app"
         "/Applications/WezTerm.app"
         "/System/Applications/Utilities/Activity Monitor.app"
         "/System/Applications/System Settings.app"
