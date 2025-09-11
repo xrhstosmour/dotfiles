@@ -37,6 +37,7 @@ apply_dock_configuration() {
         "/Applications/LocalSend.app"
         "/Applications/Obsidian.app"
         "/Applications/1Password.app"
+        "/Applications/NordVPN.app"
         "/Applications/WezTerm.app"
         "/System/Applications/Utilities/Activity Monitor.app"
         "/System/Applications/System Settings.app"
