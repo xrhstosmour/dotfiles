@@ -106,9 +106,19 @@ apply_system_configuration() {
     defaults write com.apple.ActivityMonitor OpenMainWindow -bool true
 
     log_info "Configuring 'Login Items'..."
+
+    # Get all current `Login Items` names and remove them
+    current_login_items=$(osascript -e 'tell application "System Events" to get the name of every login item' | tr ', ' '\n')
+    for current_login_item in $current_login_items; do
+        if [ -n "$current_login_item" ]; then
+            osascript -e "tell application \"System Events\" to delete login item \"$current_login_item\""
+        fi
+    done
+
+    # Add desired applications to `Login Items`.
     for application in "1Password" "Barik" "Filen" "Maccy" "SwipeAeroSpace" "Syncthing"; do
         if ! osascript -e 'tell application "System Events" to get the name of every login item' | tr ', ' '\n' | grep -Fxq "$application"; then
-            log_info "Adding '$application' to login items..."
+            log_info "Adding '$application' to 'Login Items'..."
             osascript -e "tell application \"System Events\" to make login item at end with properties {name: \"$application\", path:\"/Applications/$application.app\", hidden:true}"
         fi
     done
