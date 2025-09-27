@@ -11,6 +11,7 @@ INSTALL_SCRIPT_DIRECTORY=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 # Import functions and flags.
 source "$INSTALL_SCRIPT_DIRECTORY/helpers/logs.sh"
+source "$INSTALL_SCRIPT_DIRECTORY/helpers/ui.sh"
 
 # Detect `OS` and run the appropriate configuration script.
 os_name=$(uname -s)
@@ -53,7 +54,9 @@ fi
 
 log_success "System configuration completed!"
 
-# Reboot system.
-log_info "Initiating system reboot in 15 seconds..."
-sleep 15
-sudo reboot
+message="Do you want to reboot the system now?"
+command="log_info 'Initiating system reboot in 10 seconds...'; log_info 'Press CTRL+C to cancel'; sleep 10; sudo reboot"
+user_answer=$(ask_user_before_execution "$message" "true" "$command")
+if [ "$user_answer" = "n" ]; then
+  log_info "Reboot skipped. Some changes may require a restart to take effect."
+fi
