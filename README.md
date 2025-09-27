@@ -71,6 +71,7 @@ This repository configures system settings across `macOS` and `Arch Linux` via s
 - Integrate missing settings from the `arch-tuner` repository on `Arch Linux`.
 - Check if we can replace `utm` with `quickemu` & `quickgui`.
 - Cycle through active windows/applications using `Globe+Tab` (internal) or `Ctrl+Tab` (external) on `macOS`.
+- Add keybindings to trigger system shutdown and restart on `macOS`.
 
 ## Notes
 

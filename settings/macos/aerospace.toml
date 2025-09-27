@@ -171,9 +171,7 @@ cmd-semicolon = 'exec-and-forget osascript ~/.config/scripts/utilities/macos/ope
 ctrl-minus = 'exec-and-forget ~/.config/scripts/utilities/macos/lock_screen.sh'
 cmd-minus = 'exec-and-forget ~/.config/scripts/utilities/macos/lock_screen.sh'
 
-# Shut down.
-ctrl-esc = 'exec-and-forget "sudo shutdown -h now"'
-cmd-esc = 'exec-and-forget "sudo shutdown -h now"'
+# TODO: Add keybindings to trigger system shutdown and restart.
 
 # 'service' binding mode declaration.
 [mode.service.binding]
