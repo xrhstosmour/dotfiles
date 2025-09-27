@@ -346,15 +346,17 @@ keyboard_is_apple_internal_keyboard() {
         "$keyboard_product_name" == *"MacBook"* ]]
 }
 
-# Function to apply key mapping to a specific keyboard.
-# Maps one key to another and vice versa.
+# Function to apply keyboard mappings to a specific keyboard.
+# Can create new mapping arrays, add to existing ones, and create bidirectional swaps.
 # Usage:
-#   keyboard_apply_key_mapping "1452" "579" "2" "4"
+#   keyboard_map_keys "1452" "579" "2" "4" "true" "false"
 #
 # @param keyboard_vendor_id [String] The vendor ID of the keyboard.
 # @param keyboard_product_id [String] The product ID of the keyboard.
 # @param keyboard_source_key [String] The source key code to map from.
 # @param keyboard_destination_key [String] The destination key code to map to.
+# @param clear_existing [Boolean] Whether to clear existing mappings first. Defaults to `false`.
+# @param bidirectional [Boolean] Whether to create a bidirectional mapping. Defaults to `false`.
 #
 # Key codes:
 #   -1 = None (Disable the key)
@@ -369,34 +371,75 @@ keyboard_is_apple_internal_keyboard() {
 #   10 = Control (Right)
 #   11 = Option (Right)
 #   12 = Command (Right)
-keyboard_apply_key_mapping() {
+keyboard_map_keys() {
     local keyboard_vendor_id="$1"
     local keyboard_product_id="$2"
     local keyboard_source_key="$3"
     local keyboard_destination_key="$4"
+    local clear_existing="${5:-false}"
+    local bidirectional="${6:-false}"
 
     # Format the key exactly as macOS expects it.
     local keyboard_mapping_key="com.apple.keyboard.modifiermapping.${keyboard_vendor_id}-${keyboard_product_id}-0"
 
-    # Force clear any existing mappings.
-    defaults -currentHost delete -g "$keyboard_mapping_key" 2>/dev/null || true
+    # Clear any existing mappings if requested.
+    if [[ "$clear_existing" == "true" ]]; then
+        defaults -currentHost delete -g "$keyboard_mapping_key" 2>/dev/null || true
+    fi
 
     # Create the mapping using plutil for proper plist structure.
     # First create an empty array.
     defaults -currentHost write -g "$keyboard_mapping_key" -array
 
-    # Add first mapping (source -> destination).
+    # Add the forward mapping (source -> destination).
     defaults -currentHost write -g "$keyboard_mapping_key" -array-add \
         '<dict><key>HIDKeyboardModifierMappingDst</key><integer>'"$keyboard_destination_key"'</integer><key>HIDKeyboardModifierMappingSrc</key><integer>'"$keyboard_source_key"'</integer></dict>'
 
-    # Add second mapping (destination -> source for bidirectional swap).
-    defaults -currentHost write -g "$keyboard_mapping_key" -array-add \
-        '<dict><key>HIDKeyboardModifierMappingDst</key><integer>'"$keyboard_source_key"'</integer><key>HIDKeyboardModifierMappingSrc</key><integer>'"$keyboard_destination_key"'</integer></dict>'
+    # Add bidirectional mapping (destination -> source) if requested.
+    if [[ "$bidirectional" == "true" ]]; then
+        defaults -currentHost write -g "$keyboard_mapping_key" -array-add \
+            '<dict><key>HIDKeyboardModifierMappingDst</key><integer>'"$keyboard_source_key"'</integer><key>HIDKeyboardModifierMappingSrc</key><integer>'"$keyboard_destination_key"'</integer></dict>'
+    fi
 
     # Force macOS to reload keyboard configuration.
     sudo killall -HUP cfprefsd 2>/dev/null || true
 
     return $?
+}
+
+# Function to apply key mapping to a specific keyboard (bidirectional swap).
+# Usage:
+#   keyboard_apply_key_mapping "1452" "579" "2" "4"
+#
+# @param keyboard_vendor_id [String] The vendor ID of the keyboard.
+# @param keyboard_product_id [String] The product ID of the keyboard.
+# @param keyboard_source_key [String] The source key code to map from.
+# @param keyboard_destination_key [String] The destination key code to map to.
+keyboard_apply_key_mapping() {
+    keyboard_map_keys "$1" "$2" "$3" "$4" "true" "true"
+}
+
+# Function to apply a one-way key mapping to a specific keyboard.
+# Usage:
+#   keyboard_apply_one_way_mapping "1452" "579" "2" "4"
+#
+# @param keyboard_vendor_id [String] The vendor ID of the keyboard.
+# @param keyboard_product_id [String] The product ID of the keyboard.
+# @param keyboard_source_key [String] The source key code to map from.
+# @param keyboard_destination_key [String] The destination key code to map to.
+keyboard_apply_one_way_mapping() {
+    keyboard_map_keys "$1" "$2" "$3" "$4" "true" "false"
+}
+
+# Function to add a mapping to an existing keyboard mapping without clearing previous mappings.
+# Usage:
+#   keyboard_add_mapping "1452" "579" "2" "4"
+# @param keyboard_vendor_id [String] The vendor ID of the keyboard.
+# @param keyboard_product_id [String] The product ID of the keyboard.
+# @param keyboard_source_key [String] The source key code to map from.
+# @param keyboard_destination_key [String] The destination key code to map to.
+keyboard_add_mapping() {
+    keyboard_map_keys "$1" "$2" "$3" "$4" "false" "false"
 }
 
 # Function to detect the internal Apple keyboard.
