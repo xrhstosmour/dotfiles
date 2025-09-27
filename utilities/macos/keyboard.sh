@@ -121,26 +121,37 @@ keyboard_configure_external_keyboards() {
             product_id=$((16#$product_hex))
         fi
 
-        # Extract product name.
+        # Extract product name with fallback to "External Keyboard" if empty.
         local product_name=""
-        if [[ "$device_data" =~ Name:\ (.*) ]]; then
+        if [[ "$device_data" =~ Name:\ +(.*) ]]; then
+            product_name="${BASH_REMATCH[1]}"
+        elif [[ "$device_data" =~ Device\ Name:\ +(.*) ]]; then
+            product_name="${BASH_REMATCH[1]}"
+        elif [[ "$device_data" =~ Product:\ +(.*) ]]; then
+            product_name="${BASH_REMATCH[1]}"
+        elif [[ "$device_data" =~ Product\ Name:\ +(.*) ]]; then
             product_name="${BASH_REMATCH[1]}"
         elif [[ "$device_data" =~ Bluetooth\ keyboard: ]]; then
             product_name="Bluetooth keyboard"
+        elif [[ "$device_data" =~ Manufacturer:\ +(.*) ]]; then
+            manufacturer="${BASH_REMATCH[1]}"
+            product_name="${manufacturer} Keyboard"
+        elif [[ -n "$vendor_id" && -n "$product_id" ]]; then
+            product_name="External Keyboard"
         fi
 
         # Apply mapping only to external keyboards.
         if [[ -n "$vendor_id" && -n "$product_id" ]]; then
             if ! keyboard_is_apple_internal_keyboard "$product_name"; then
-                log_info "Applying Control → Command to external keyboard: $product_name..."
-                keyboard_add_mapping "$vendor_id" "$product_id" "2" "4"
+                log_info "Applying Control → Command to external keyboard..."
+                keyboard_apply_one_way_mapping "$vendor_id" "$product_id" "2" "4"
                 keyboard_modified_count=$((keyboard_modified_count + 1))
 
-                log_info "Applying Super → Option to external keyboard: $product_name..."
+                log_info "Applying Super → Option to external keyboard..."
                 keyboard_add_mapping "$vendor_id" "$product_id" "4" "3"
                 keyboard_modified_count=$((keyboard_modified_count + 1))
 
-                log_info "Applying Alt → Control to external keyboard: $product_name..."
+                log_info "Applying Alt → Control to external keyboard..."
                 keyboard_add_mapping "$vendor_id" "$product_id" "3" "2"
                 keyboard_modified_count=$((keyboard_modified_count + 1))
             else
@@ -267,7 +278,7 @@ keyboard_detect_all_keyboards() {
     # Try multiple detection methods to ensure we find keyboards.
 
     # Check for USB keyboards.
-    local usb_keyboard_data=$(system_profiler SPUSBDataType 2>/dev/null | grep -A 20 "Keyboard" | grep -E "Product ID|Vendor ID|Product Name" | sed 's/^ *//')
+    local usb_keyboard_data=$(system_profiler SPUSBDataType 2>/dev/null | grep -A 20 "Keyboard" | grep -E "Product ID|Vendor ID|Product|Name" | sed 's/^ *//')
 
     # For Bluetooth, extract ONLY devices that have "Minor Type: Keyboard".
     local bt_keyboard_data=""
@@ -276,7 +287,7 @@ keyboard_detect_all_keyboards() {
 
     # Create a temporary file for Bluetooth data.
     local bt_temp_file="/tmp/bt_data_$$.txt"
-    system_profiler SPBluetoothDataType 2>/dev/null | grep -E "Address:|Name:|Minor Type:|Vendor ID:|Product ID:" | sed 's/^ *//' >"$bt_temp_file"
+    system_profiler SPBluetoothDataType 2>/dev/null | grep -E "Address:|Name:|Minor Type:|Vendor ID:|Product ID:|Device Name:|Manufacturer:" | sed 's/^ *//' >"$bt_temp_file"
 
     # Read the entire Bluetooth data and process it line by line.
     while IFS= read -r line; do
@@ -298,7 +309,7 @@ keyboard_detect_all_keyboards() {
             device_info+=$'\n'"$line"
         elif [[ -n "$device_info" ]]; then
             # Add other relevant info for the current device.
-            if [[ $line == *"Name:"* || $line == *"Vendor ID:"* || $line == *"Product ID:"* ]]; then
+            if [[ $line == *"Name:"* || $line == *"Vendor ID:"* || $line == *"Product ID:"* || $line == *"Device Name:"* || $line == *"Manufacturer:"* ]]; then
                 device_info+=$'\n'"$line"
             fi
         fi
