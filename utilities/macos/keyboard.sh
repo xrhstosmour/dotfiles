@@ -13,7 +13,7 @@ source "$KEYBOARD_SCRIPT_DIRECTORY/../../helpers/logs.sh"
 
 # Function to apply Keyboard configuration.
 #
-# ! IMPORTANT: On `macOS 15.0` and later you must head to `System Settings → Privacy & Security → Input Monitoring` and:
+# ! IMPORTANT: Head to `System Settings → Privacy & Security → Input Monitoring` and:
 # !     - Grant permission to `/usr/bin/hidutil`.
 # !     - Grant permission to `usr/bin/sudo`.
 #
@@ -91,12 +91,12 @@ keyboard_clear_all_mappings() {
     log_success "All keyboard mappings cleared."
 }
 
-# Function to configure external keyboards.
-# Applies Control ↔ Command swap only to external (non-Apple internal) keyboards.
+# Function to configure external non Apple keyboards.
+# Applies Control → Command, Super → Option, and Alt → Control.
 # Usage:
 #   keyboard_configure_external_keyboards
 keyboard_configure_external_keyboards() {
-    log_info "Configuring external keyboards (Control ↔ Command)..."
+    log_info "Configuring external keyboards (Control → Command, Super → Option, and Alt → Control)..."
 
     # Detect all connected keyboards.
     local keyboard_temp_file="/tmp/keyboard_info_$$.txt"
@@ -121,19 +121,38 @@ keyboard_configure_external_keyboards() {
             product_id=$((16#$product_hex))
         fi
 
-        # Extract product name.
+        # Extract product name with fallback to "External Keyboard" if empty.
         local product_name=""
-        if [[ "$device_data" =~ Name:\ (.*) ]]; then
+        if [[ "$device_data" =~ Name:\ +(.*) ]]; then
+            product_name="${BASH_REMATCH[1]}"
+        elif [[ "$device_data" =~ Device\ Name:\ +(.*) ]]; then
+            product_name="${BASH_REMATCH[1]}"
+        elif [[ "$device_data" =~ Product:\ +(.*) ]]; then
+            product_name="${BASH_REMATCH[1]}"
+        elif [[ "$device_data" =~ Product\ Name:\ +(.*) ]]; then
             product_name="${BASH_REMATCH[1]}"
         elif [[ "$device_data" =~ Bluetooth\ keyboard: ]]; then
             product_name="Bluetooth keyboard"
+        elif [[ "$device_data" =~ Manufacturer:\ +(.*) ]]; then
+            manufacturer="${BASH_REMATCH[1]}"
+            product_name="${manufacturer} Keyboard"
+        elif [[ -n "$vendor_id" && -n "$product_id" ]]; then
+            product_name="External Keyboard"
         fi
 
         # Apply mapping only to external keyboards.
         if [[ -n "$vendor_id" && -n "$product_id" ]]; then
             if ! keyboard_is_apple_internal_keyboard "$product_name"; then
-                log_info "Applying Control ↔ Command to external keyboard: $product_name..."
-                keyboard_apply_key_mapping "$vendor_id" "$product_id" "2" "4"
+                log_info "Applying Control → Command to external keyboard..."
+                keyboard_apply_one_way_mapping "$vendor_id" "$product_id" "2" "4"
+                keyboard_modified_count=$((keyboard_modified_count + 1))
+
+                log_info "Applying Super → Option to external keyboard..."
+                keyboard_add_mapping "$vendor_id" "$product_id" "4" "3"
+                keyboard_modified_count=$((keyboard_modified_count + 1))
+
+                log_info "Applying Alt → Control to external keyboard..."
+                keyboard_add_mapping "$vendor_id" "$product_id" "3" "2"
                 keyboard_modified_count=$((keyboard_modified_count + 1))
             else
                 log_info "Skipping internal keyboard: $product_name"
@@ -147,7 +166,7 @@ keyboard_configure_external_keyboards() {
     if [ $keyboard_modified_count -eq 0 ]; then
         log_warning "No external keyboards detected."
     else
-        log_success "External keyboards configured (Control ↔ Command)."
+        log_success "External keyboards configured (Control → Command, Super → Option, and Alt → Control)."
     fi
 }
 
@@ -259,7 +278,7 @@ keyboard_detect_all_keyboards() {
     # Try multiple detection methods to ensure we find keyboards.
 
     # Check for USB keyboards.
-    local usb_keyboard_data=$(system_profiler SPUSBDataType 2>/dev/null | grep -A 20 "Keyboard" | grep -E "Product ID|Vendor ID|Product Name" | sed 's/^ *//')
+    local usb_keyboard_data=$(system_profiler SPUSBDataType 2>/dev/null | grep -A 20 "Keyboard" | grep -E "Product ID|Vendor ID|Product|Name" | sed 's/^ *//')
 
     # For Bluetooth, extract ONLY devices that have "Minor Type: Keyboard".
     local bt_keyboard_data=""
@@ -268,7 +287,7 @@ keyboard_detect_all_keyboards() {
 
     # Create a temporary file for Bluetooth data.
     local bt_temp_file="/tmp/bt_data_$$.txt"
-    system_profiler SPBluetoothDataType 2>/dev/null | grep -E "Address:|Name:|Minor Type:|Vendor ID:|Product ID:" | sed 's/^ *//' >"$bt_temp_file"
+    system_profiler SPBluetoothDataType 2>/dev/null | grep -E "Address:|Name:|Minor Type:|Vendor ID:|Product ID:|Device Name:|Manufacturer:" | sed 's/^ *//' >"$bt_temp_file"
 
     # Read the entire Bluetooth data and process it line by line.
     while IFS= read -r line; do
@@ -290,7 +309,7 @@ keyboard_detect_all_keyboards() {
             device_info+=$'\n'"$line"
         elif [[ -n "$device_info" ]]; then
             # Add other relevant info for the current device.
-            if [[ $line == *"Name:"* || $line == *"Vendor ID:"* || $line == *"Product ID:"* ]]; then
+            if [[ $line == *"Name:"* || $line == *"Vendor ID:"* || $line == *"Product ID:"* || $line == *"Device Name:"* || $line == *"Manufacturer:"* ]]; then
                 device_info+=$'\n'"$line"
             fi
         fi
@@ -346,15 +365,17 @@ keyboard_is_apple_internal_keyboard() {
         "$keyboard_product_name" == *"MacBook"* ]]
 }
 
-# Function to apply key mapping to a specific keyboard.
-# Maps one key to another and vice versa.
+# Function to apply keyboard mappings to a specific keyboard.
+# Can create new mapping arrays, add to existing ones, and create bidirectional swaps.
 # Usage:
-#   keyboard_apply_key_mapping "1452" "579" "2" "4"
+#   keyboard_map_keys "1452" "579" "2" "4" "true" "false"
 #
 # @param keyboard_vendor_id [String] The vendor ID of the keyboard.
 # @param keyboard_product_id [String] The product ID of the keyboard.
 # @param keyboard_source_key [String] The source key code to map from.
 # @param keyboard_destination_key [String] The destination key code to map to.
+# @param clear_existing [Boolean] Whether to clear existing mappings first. Defaults to `false`.
+# @param bidirectional [Boolean] Whether to create a bidirectional mapping. Defaults to `false`.
 #
 # Key codes:
 #   -1 = None (Disable the key)
@@ -369,34 +390,78 @@ keyboard_is_apple_internal_keyboard() {
 #   10 = Control (Right)
 #   11 = Option (Right)
 #   12 = Command (Right)
-keyboard_apply_key_mapping() {
+keyboard_map_keys() {
     local keyboard_vendor_id="$1"
     local keyboard_product_id="$2"
     local keyboard_source_key="$3"
     local keyboard_destination_key="$4"
+    local clear_existing="${5:-false}"
+    local bidirectional="${6:-false}"
 
     # Format the key exactly as macOS expects it.
     local keyboard_mapping_key="com.apple.keyboard.modifiermapping.${keyboard_vendor_id}-${keyboard_product_id}-0"
 
-    # Force clear any existing mappings.
-    defaults -currentHost delete -g "$keyboard_mapping_key" 2>/dev/null || true
+    # Clear any existing mappings if requested.
+    if [[ "$clear_existing" == "true" ]]; then
+        defaults -currentHost delete -g "$keyboard_mapping_key" 2>/dev/null || true
+    fi
 
-    # Create the mapping using plutil for proper plist structure.
-    # First create an empty array.
-    defaults -currentHost write -g "$keyboard_mapping_key" -array
+    # Only create a fresh empty array if:
+    #   - We just cleared existing mappings
+    #   - Or the key does not already exist.
+    if [[ "$clear_existing" == "true" ]] || ! defaults -currentHost read -g "$keyboard_mapping_key" >/dev/null 2>&1; then
+        defaults -currentHost write -g "$keyboard_mapping_key" -array
+    fi
 
-    # Add first mapping (source -> destination).
+    # Add the forward mapping (source -> destination).
     defaults -currentHost write -g "$keyboard_mapping_key" -array-add \
         '<dict><key>HIDKeyboardModifierMappingDst</key><integer>'"$keyboard_destination_key"'</integer><key>HIDKeyboardModifierMappingSrc</key><integer>'"$keyboard_source_key"'</integer></dict>'
 
-    # Add second mapping (destination -> source for bidirectional swap).
-    defaults -currentHost write -g "$keyboard_mapping_key" -array-add \
-        '<dict><key>HIDKeyboardModifierMappingDst</key><integer>'"$keyboard_source_key"'</integer><key>HIDKeyboardModifierMappingSrc</key><integer>'"$keyboard_destination_key"'</integer></dict>'
+    # Add bidirectional mapping (destination -> source) if requested.
+    if [[ "$bidirectional" == "true" ]]; then
+        defaults -currentHost write -g "$keyboard_mapping_key" -array-add \
+            '<dict><key>HIDKeyboardModifierMappingDst</key><integer>'"$keyboard_source_key"'</integer><key>HIDKeyboardModifierMappingSrc</key><integer>'"$keyboard_destination_key"'</integer></dict>'
+    fi
 
     # Force macOS to reload keyboard configuration.
     sudo killall -HUP cfprefsd 2>/dev/null || true
 
     return $?
+}
+
+# Function to apply key mapping to a specific keyboard (bidirectional swap).
+# Usage:
+#   keyboard_apply_key_mapping "1452" "579" "2" "4"
+#
+# @param keyboard_vendor_id [String] The vendor ID of the keyboard.
+# @param keyboard_product_id [String] The product ID of the keyboard.
+# @param keyboard_source_key [String] The source key code to map from.
+# @param keyboard_destination_key [String] The destination key code to map to.
+keyboard_apply_key_mapping() {
+    keyboard_map_keys "$1" "$2" "$3" "$4" "true" "true"
+}
+
+# Function to apply a one-way key mapping to a specific keyboard.
+# Usage:
+#   keyboard_apply_one_way_mapping "1452" "579" "2" "4"
+#
+# @param keyboard_vendor_id [String] The vendor ID of the keyboard.
+# @param keyboard_product_id [String] The product ID of the keyboard.
+# @param keyboard_source_key [String] The source key code to map from.
+# @param keyboard_destination_key [String] The destination key code to map to.
+keyboard_apply_one_way_mapping() {
+    keyboard_map_keys "$1" "$2" "$3" "$4" "true" "false"
+}
+
+# Function to add a mapping to an existing keyboard mapping without clearing previous mappings.
+# Usage:
+#   keyboard_add_mapping "1452" "579" "2" "4"
+# @param keyboard_vendor_id [String] The vendor ID of the keyboard.
+# @param keyboard_product_id [String] The product ID of the keyboard.
+# @param keyboard_source_key [String] The source key code to map from.
+# @param keyboard_destination_key [String] The destination key code to map to.
+keyboard_add_mapping() {
+    keyboard_map_keys "$1" "$2" "$3" "$4" "false" "false"
 }
 
 # Function to detect the internal Apple keyboard.
