@@ -45,7 +45,9 @@ ask_user_before_execution() {
 
         # Capitalize the first letter of the script or function name only.
         if [[ "$script_or_function_or_command_name" == *"_"* ]] || [[ -f "$script_or_function_or_command" ]]; then
-            capitalized_script_or_function_or_command_name="${script_or_function_or_command_name^}"
+            first_char=$(echo "${script_or_function_or_command_name:0:1}" | tr '[:lower:]' '[:upper:]')
+            rest_of_string="${script_or_function_or_command_name:1}"
+            capitalized_script_or_function_or_command_name="${first_char}${rest_of_string}"
         else
             capitalized_script_or_function_or_command_name="$script_or_function_or_command_name"
         fi
