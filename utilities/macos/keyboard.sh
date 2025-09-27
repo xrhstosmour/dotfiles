@@ -13,7 +13,7 @@ source "$KEYBOARD_SCRIPT_DIRECTORY/../../helpers/logs.sh"
 
 # Function to apply Keyboard configuration.
 #
-# ! IMPORTANT: On `macOS 15.0` and later you must head to `System Settings → Privacy & Security → Input Monitoring` and:
+# ! IMPORTANT: Head to `System Settings → Privacy & Security → Input Monitoring` and:
 # !     - Grant permission to `/usr/bin/hidutil`.
 # !     - Grant permission to `usr/bin/sudo`.
 #
@@ -91,12 +91,12 @@ keyboard_clear_all_mappings() {
     log_success "All keyboard mappings cleared."
 }
 
-# Function to configure external keyboards.
-# Applies Control ↔ Command swap only to external (non-Apple internal) keyboards.
+# Function to configure external non Apple keyboards.
+# Applies Control → Command, Super → Option, and Alt → Control.
 # Usage:
 #   keyboard_configure_external_keyboards
 keyboard_configure_external_keyboards() {
-    log_info "Configuring external keyboards (Control ↔ Command)..."
+    log_info "Configuring external keyboards (Control → Command, Super → Option, and Alt → Control)..."
 
     # Detect all connected keyboards.
     local keyboard_temp_file="/tmp/keyboard_info_$$.txt"
@@ -132,8 +132,16 @@ keyboard_configure_external_keyboards() {
         # Apply mapping only to external keyboards.
         if [[ -n "$vendor_id" && -n "$product_id" ]]; then
             if ! keyboard_is_apple_internal_keyboard "$product_name"; then
-                log_info "Applying Control ↔ Command to external keyboard: $product_name..."
-                keyboard_apply_key_mapping "$vendor_id" "$product_id" "2" "4"
+                log_info "Applying Control → Command to external keyboard: $product_name..."
+                keyboard_add_mapping "$vendor_id" "$product_id" "2" "4"
+                keyboard_modified_count=$((keyboard_modified_count + 1))
+
+                log_info "Applying Super → Option to external keyboard: $product_name..."
+                keyboard_add_mapping "$vendor_id" "$product_id" "4" "3"
+                keyboard_modified_count=$((keyboard_modified_count + 1))
+
+                log_info "Applying Alt → Control to external keyboard: $product_name..."
+                keyboard_add_mapping "$vendor_id" "$product_id" "3" "2"
                 keyboard_modified_count=$((keyboard_modified_count + 1))
             else
                 log_info "Skipping internal keyboard: $product_name"
@@ -147,7 +155,7 @@ keyboard_configure_external_keyboards() {
     if [ $keyboard_modified_count -eq 0 ]; then
         log_warning "No external keyboards detected."
     else
-        log_success "External keyboards configured (Control ↔ Command)."
+        log_success "External keyboards configured (Control → Command, Super → Option, and Alt → Control)."
     fi
 }
 
@@ -387,9 +395,12 @@ keyboard_map_keys() {
         defaults -currentHost delete -g "$keyboard_mapping_key" 2>/dev/null || true
     fi
 
-    # Create the mapping using plutil for proper plist structure.
-    # First create an empty array.
-    defaults -currentHost write -g "$keyboard_mapping_key" -array
+    # Only create a fresh empty array if:
+    #   - We just cleared existing mappings
+    #   - Or the key does not already exist.
+    if [[ "$clear_existing" == "true" ]] || ! defaults -currentHost read -g "$keyboard_mapping_key" >/dev/null 2>&1; then
+        defaults -currentHost write -g "$keyboard_mapping_key" -array
+    fi
 
     # Add the forward mapping (source -> destination).
     defaults -currentHost write -g "$keyboard_mapping_key" -array-add \
