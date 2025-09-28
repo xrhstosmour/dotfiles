@@ -27,6 +27,7 @@ apply_dock_configuration() {
     dock_apps=(
         "/Applications/Google Chrome.app"
         "/Applications/Brave Browser.app"
+        "/Applications/Perplexity.app"
         "/Applications/Viber.app"
         "/Applications/Signal.app"
         "/Applications/Visual Studio Code.app"
