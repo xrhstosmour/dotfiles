@@ -23,6 +23,17 @@ sh macos/scripts/homebrew.sh
 log_info "Installing needed dependencies and applications..."
 brew bundle install --file=packages/macos/Brewfile
 
+# Install `Mac App Store` applications.
+# Loop through the list of app IDs in `packages/macos/store_applications_ids.txt`.
+if command -v mas &>/dev/null; then
+    while IFS= read -r application_id || [[ -n "$application_id" ]]; do
+    # Skip empty lines and comments.
+        [[ -z "$application_id" || "$application_id" =~ ^# ]] && continue
+
+        mas purchase "$application_id"
+    done <packages/macos/store_applications_ids.txt
+fi
+
 # Restore installed applications' configurations.
 sh macos/scripts/applications.sh
 log_divider
