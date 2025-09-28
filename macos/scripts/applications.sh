@@ -20,12 +20,14 @@ APPLICATIONS_SOURCES=(
   "$APPLICATIONS_SCRIPT_DIRECTORY/../../settings/macos/org.p0deje.Maccy.plist.xml"
   "$APPLICATIONS_SCRIPT_DIRECTORY/../../settings/keepassxc.ini"
 )
+
 APPLICATIONS_DESTINATIONS=(
   "$HOME/.barik-config.toml"
   "$HOME/.config/aerospace/aerospace.toml"
   "$HOME/Library/Containers/org.p0deje.Maccy/Data/Library/Preferences/org.p0deje.Maccy.plist"
   "$HOME/Library/Application Support/KeePassXC/keepassxc.ini"
 )
+
 APPLICATIONS_NAMES=(
   "Barik"
   "Aerospace"
@@ -38,6 +40,8 @@ for i in "${!APPLICATIONS_SOURCES[@]}"; do
   source="${APPLICATIONS_SOURCES[$i]}"
   destination="${APPLICATIONS_DESTINATIONS[$i]}"
   process_name="${APPLICATIONS_NAMES[$i]}"
+
+  # Check if the source configuration file exists.
   if [ -f "$source" ]; then
     log_info "Restoring '$process_name' configuration..."
     killall "$process_name" 2>/dev/null || true
