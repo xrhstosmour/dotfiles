@@ -75,9 +75,9 @@ function git_fetch_and_rebase
 
     # Perform fetch and rebase with or without autostash.
     if test "$autostash_enabled" = "true"
-        git fetch && git rebase -i "$branch_to_rebase_onto" --autosquash --autostash
+        git fetch --all --prune && git rebase -i "$branch_to_rebase_onto" --autosquash --autostash
     else
-        git fetch && git rebase -i "$branch_to_rebase_onto" --autosquash
+        git fetch --all --prune && git rebase -i "$branch_to_rebase_onto" --autosquash
     end
 end
 
