@@ -75,6 +75,7 @@ abbr gafx "git_auto_fix_up"
 abbr grp "git prune && rm -rf ./.git/gc.log && git gc --prune now && git remote prune origin"
 abbr gmr "git revert -m 1"
 abbr grc "git revert"
+abbr gra "git revert --abort"
 abbr gm "git_merge_to_default_branch"
 abbr gsu "git_add_remote_branch"
 
