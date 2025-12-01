@@ -3,7 +3,7 @@ abbr us "brew update && brew upgrade && brew upgrade --cask && mas upgrade"
 abbr pi "brew install"
 abbr pr "brew uninstall"
 abbr ip "printf 'IPv4 (en0): %s\n' $(ipconfig getifaddr en0)"
-abbr ka "sudo killall coreaudiod bluetoothd bluetoothaudiod"
+abbr ks "sudo killall coreaudiod bluetoothd bluetoothaudiod"
 abbr po "sudo shutdown -h now"
 abbr zzz "sudo pmset sleepnow"
 
