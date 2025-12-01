@@ -35,3 +35,8 @@ if test "$kernel_name" = "Linux"
   source $HOME/.config/fish/functions/copy.fish
   source $HOME/.config/fish/functions/trashy.fish
 end
+
+# Source `macOS` specific `Fish` functions.
+if test "$kernel_name" = "Darwin"
+  source $HOME/.config/fish/functions/emulators.fish
+end
