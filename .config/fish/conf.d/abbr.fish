@@ -78,6 +78,9 @@ abbr grc "git revert"
 abbr gra "git revert --abort"
 abbr gm "git_merge_to_default_branch"
 abbr gsu "git_add_remote_branch"
+abbr ghprs "github_pr_reviews"
+abbr ghoprs "github_my_prs open"
+abbr ghcprs "github_my_prs closed"
 
 # `Docker` abbreviations.
 abbr d "docker"
