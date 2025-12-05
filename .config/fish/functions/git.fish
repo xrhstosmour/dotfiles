@@ -665,11 +665,3 @@ function github_my_prs
 
     echo "$formatted_output" | fzf --ansi --bind 'enter:execute(gh pr view (echo {} | grep -oE "[0-9]+" | head -1) --json url --template "{{.url}}" | xargs open)+abort'
 end
-
-function github_my_open_prs
-    github_my_prs open
-end
-
-function github_my_closed_prs
-    github_my_prs closed
-end
