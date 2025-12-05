@@ -580,3 +580,96 @@ function git_add_remote_branch
         return 1
     end
 end
+
+# Function to list and interact with GitHub PRs that need review.
+# Pressing:
+#   - ENTER will open the PR in the default browser
+# Usage:
+#   github_pr_reviews
+function github_pr_reviews
+    # Fetch open PRs where user is involved but is not the author.
+    set prs_list (gh pr list --state open --search "involves:@me -author:@me" --json number,title,author,reviews,url --template '{{range .}}{{.number}}|{{.title}}|{{.author.login}}|{{len .reviews}}|{{.url}}{{"\n"}}{{end}}')
+
+    # Check if the PR list is empty.
+    if test -z "$prs_list"
+        echo "No pull requests found!"
+        return 1
+    end
+
+    # Format output.
+    set -l formatted_output (echo "$prs_list" | while IFS= read -r line
+        set pr_number (echo "$line" | cut -d'|' -f1)
+        set pr_title (echo "$line" | cut -d'|' -f2)
+        set pr_author (echo "$line" | cut -d'|' -f3)
+        set pr_url (echo "$line" | cut -d'|' -f5)
+
+        # Print PR info (spaces won't be parsed as delimiters).
+        echo -e "\033[1;33m$pr_number\033[0m \033[1;32m|\033[0m \033[1;33m$pr_author\033[0m \033[1;32m|\033[0m $pr_title"
+    end)
+
+    echo "$formatted_output" | fzf --ansi --bind 'enter:execute(gh pr view (echo {} | grep -oE "[0-9]+" | head -1) --json url --template "{{.url}}" | xargs open)+abort' --preview '
+        # Extract PR number from the line
+        set pr_number (echo {} | grep -oE "[0-9]+" | head -1)
+
+        # Fetch full PR details
+        gh pr view $pr_number --json number,title,author,createdAt,updatedAt,body,commits,comments,reviews,headRefName,baseRefName --template "PR #{{.number}}\nTitle: {{.title}}\n\nAuthor: {{.author.login}}\nCreated: {{.createdAt}}\nUpdated: {{.updatedAt}}\n\nBranch: {{.headRefName}} → {{.baseRefName}}\nStats: {{len .commits}} commits | {{len .comments}} comments | {{len .reviews}} reviews\n\nDescription:\n{{.body}}"
+    ' --preview-window=right:50%:hidden:wrap
+end
+
+# Function to list and interact with my GitHub PRs (open or closed).
+# Pressing:
+#   - ENTER will open the PR in the default browser
+#   - ESC to exit
+# Usage:
+#   github_my_prs [open|closed]
+function github_my_prs
+    set state "$argv[1]"
+
+    if test -z "$state"
+        echo "Usage: github_my_prs [open|closed]"
+        return 1
+    end
+
+    # Build the search query based on state.
+    set search_query ""
+    set error_msg ""
+
+    if test "$state" = "open"
+        set search_query "assignee:@me is:open"
+        set error_msg "No open pull requests found!"
+    else if test "$state" = "closed"
+        set search_query "is:closed assignee:@me"
+        set error_msg "No closed pull requests found!"
+    else
+        echo "Invalid state: $state. Use 'open' or 'closed'"
+        return 1
+    end
+
+    # Fetch PRs assigned to user with the specified state.
+    set prs_list (gh pr list --state $state --search "$search_query" --json number,title,url --template '{{range .}}{{.number}}|{{.title}}|{{.url}}{{"\n"}}{{end}}')
+
+    # Check if the PR list is empty.
+    if test -z "$prs_list"
+        echo "$error_msg"
+        return 1
+    end
+
+    # Format output.
+    set -l formatted_output (echo "$prs_list" | while IFS= read -r line
+        set pr_number (echo "$line" | cut -d'|' -f1)
+        set pr_title (echo "$line" | cut -d'|' -f2)
+
+        # Print PR ID and title.
+        echo -e "\033[1;33m$pr_number\033[0m \033[1;32m|\033[0m $pr_title"
+    end)
+
+    echo "$formatted_output" | fzf --ansi --bind 'enter:execute(gh pr view (echo {} | grep -oE "[0-9]+" | head -1) --json url --template "{{.url}}" | xargs open)+abort'
+end
+
+function github_my_open_prs
+    github_my_prs open
+end
+
+function github_my_closed_prs
+    github_my_prs closed
+end
