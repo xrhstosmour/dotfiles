@@ -9,3 +9,7 @@
 	default = current
 [core]
 	editor = code --wait
+[http]
+	postBuffer = 524288000
+[tig]
+	main-view-commit-title-graph = v1
