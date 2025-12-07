@@ -5,6 +5,7 @@ cask_args appdir: '/Applications'
 tap 'argon/mas'
 tap 'avasilic/goto'
 tap 'buo/cask-upgrade'
+tap 'wickenico/wailbrew'
 
 # Install dependencies for various utilities and applications.
 brew 'aria2'
@@ -68,4 +69,5 @@ cask 'veracrypt'
 cask 'viber'
 cask 'visual-studio-code'
 cask 'vlc'
+cask 'wailbrew'
 cask 'wezterm'
